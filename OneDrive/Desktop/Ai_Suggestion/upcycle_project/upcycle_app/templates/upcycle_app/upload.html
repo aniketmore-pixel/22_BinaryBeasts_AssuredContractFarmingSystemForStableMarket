@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% extends 'upcycle_app/base.html' %}
+
+    {% block title %}Upload Furniture{% endblock %}
+    
+    {% block content %}
+        <h1 class="text-center">Enter Furniture Name</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="furniture_name" class="form-label">Furniture Name:</label>
+                <input type="text" id="furniture_name" name="furniture_name" class="form-control" placeholder="E.g., Old Chair" required>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Get Suggestions</button>
+            </div>
+        </form>
+    {% endblock %}
+    
+</body>
+</html>
