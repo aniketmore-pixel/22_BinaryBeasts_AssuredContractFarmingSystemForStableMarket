@@ -1,0 +1,251 @@
+.timeline-wrapper {
+    width: 100%;
+    padding: 2rem 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Horizontal Styles - Desktop */
+.timeline-horizontal {
+    display: block;
+    position: relative;
+    padding-top: 3rem;
+}
+
+.progress-bar-bg {
+    position: absolute;
+    top: 4.25rem;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    z-index: 1;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+.stages-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    padding: 0 2%;
+}
+
+.stage-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    text-align: center;
+}
+
+.node-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.node {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+}
+
+.stage-item.completed .node {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+}
+
+.stage-item.active .node {
+    border-color: var(--primary);
+    background: white;
+    color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+.pulse-icon {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.stage-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.stage-item.active .stage-label {
+    color: var(--primary);
+}
+
+.stage-time {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+/* Tooltip */
+.tooltip {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1c1b;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    width: 160px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.node-wrapper:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: -55px;
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #1a1c1b;
+}
+
+/* Vertical Styles - Mobile */
+.timeline-vertical {
+    display: none;
+    padding: 0 1rem;
+}
+
+.v-stage-item {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.v-node-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.v-node {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #9ca3af;
+    position: relative;
+    z-index: 2;
+}
+
+.v-line {
+    width: 2px;
+    flex-grow: 1;
+    background: #e5e7eb;
+    margin: 4px 0;
+}
+
+.v-stage-item.completed .v-node {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+}
+
+.v-stage-item.completed .v-line {
+    background: var(--primary);
+}
+
+.v-stage-item.active .v-node {
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.v-stage-content {
+    padding-bottom: 2rem;
+    flex: 1;
+}
+
+.v-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.v-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.v-time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.v-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .timeline-horizontal {
+        display: none;
+    }
+
+    .timeline-vertical {
+        display: block;
+    }
+}

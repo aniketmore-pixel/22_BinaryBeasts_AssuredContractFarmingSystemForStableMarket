@@ -1,0 +1,23 @@
+.layout-root {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    background: var(--background);
+    min-height: 100vh;
+}
+
+.page-wrapper {
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding-bottom: 65px;
+        /* space for mobile nav */
+    }
+}

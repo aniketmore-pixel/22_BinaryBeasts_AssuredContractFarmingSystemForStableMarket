@@ -1,0 +1,262 @@
+/* AdminDisputes.module.css */
+.container {
+    padding: 2rem;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.subtitle {
+    color: #7f8c8d;
+}
+
+.statsBar {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+.statCard {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    flex: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.statLabel {
+    font-size: 0.85rem;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.statValue {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 20px;
+}
+
+.searchBox {
+    flex: 1;
+}
+
+.searchBox input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-family: inherit;
+}
+
+.filterGroup {
+    display: flex;
+    gap: 12px;
+}
+
+.filterGroup select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: white;
+}
+
+.tableWrapper {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    text-align: left;
+    padding: 16px;
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+.table td {
+    padding: 16px;
+    border-top: 1px solid #f1f1f1;
+    font-size: 0.95rem;
+}
+
+.tableRow:hover {
+    background: #fcfcfc;
+}
+
+.partiesCell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.85rem;
+}
+
+.viewBtn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+}
+
+.section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+}
+
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.headerRow h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.description {
+    margin-bottom: 2rem;
+}
+
+.partiesInfo {
+    display: flex;
+    gap: 20px;
+}
+
+.partyCard {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.resolveForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.inputGroup label {
+    font-weight: 600;
+}
+
+.inputGroup select,
+.inputGroup input,
+.inputGroup textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.resolveBtn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.statusBtn {
+    background: #f39c12;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 12px;
+}
+
+.resolvedInfo {
+    text-align: center;
+    background: #e8f5e9;
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.successBadge {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 4px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.backBtn {
+    background: none;
+    border: none;
+    color: #7f8c8d;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+@media (max-width: 1100px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    .table th:nth-child(4),
+    .table td:nth-child(4),
+    .table th:nth-child(6),
+    .table td:nth-child(6) {
+        display: none;
+    }
+
+    .statsBar {
+        flex-direction: column;
+    }
+}

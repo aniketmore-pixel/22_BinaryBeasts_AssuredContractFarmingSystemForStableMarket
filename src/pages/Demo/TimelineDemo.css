@@ -1,0 +1,131 @@
+.demo-container {
+    padding: 3rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #f8faf9;
+    min-height: 100vh;
+}
+
+.demo-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.demo-header h1 {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.demo-header p {
+    color: var(--text-secondary);
+}
+
+.demo-controls {
+    margin-bottom: 2rem;
+}
+
+.control-card {
+    background: white;
+}
+
+.status-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.status-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.status-btn:hover {
+    background: #e5e7eb;
+}
+
+.status-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.timeline-preview-card {
+    padding: 3rem;
+    background: white;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.contract-id span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.contract-id strong {
+    font-size: 1.25rem;
+    color: var(--text-main);
+}
+
+.current-badge {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.status-text {
+    text-transform: capitalize;
+}
+
+.card-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.card-footer p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.usage-guide {
+    margin-top: 4rem;
+}
+
+.usage-guide pre {
+    background: #1a1c1b;
+    color: #e5e7eb;
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .timeline-preview-card {
+        padding: 1.5rem;
+    }
+
+    .card-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

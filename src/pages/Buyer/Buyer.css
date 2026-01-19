@@ -1,0 +1,70 @@
+.stat-icon.supply {
+    background: #E0E7FF;
+    color: #4338CA;
+}
+
+.stat-icon.farmers {
+    background: #FEF3C7;
+    color: #B45309;
+}
+
+.stat-icon.quality {
+    background: #D1FAE5;
+    color: #059669;
+}
+
+.stat-icon.escrow {
+    background: #FCE7F3;
+    color: #BE185D;
+}
+
+.create-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.verify-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.verify-info h4 {
+    font-size: 0.9375rem;
+}
+
+.verify-info p {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
+.small-btn {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.75rem !important;
+}
+
+.placeholder-map {
+    height: 300px;
+    background: #f0f4f2;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-overlay {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+}

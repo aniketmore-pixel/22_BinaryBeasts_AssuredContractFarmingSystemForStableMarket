@@ -1,0 +1,124 @@
+.demo-wrapper {
+    padding: 3rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #fcfdfc;
+    min-height: 100vh;
+}
+
+.insights-header {
+    margin-bottom: 3rem;
+    text-align: left;
+}
+
+.label-tag {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.insights-header h1 {
+    font-size: 2.25rem;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.insights-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+}
+
+.controls-card {
+    position: sticky;
+    top: 2rem;
+    padding: 1.5rem;
+}
+
+.control-group {
+    margin-bottom: 1.5rem;
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+}
+
+.control-group input[type="number"],
+.control-group select {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.market-range-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.demo-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.widgets-top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.widget-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+}
+
+.badge-demo-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.badge-item label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .widgets-top-row {
+        grid-template-columns: 1fr;
+    }
+
+    .controls-card {
+        position: static;
+    }
+}

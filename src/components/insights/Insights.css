@@ -1,0 +1,399 @@
+/* Insights Global Tokens */
+:root {
+    --trust-green: #10b981;
+    --trust-yellow: #f59e0b;
+    --trust-red: #ef4444;
+}
+
+/* 1. Trust Badge Styles */
+.trust-badge-container {
+    position: relative;
+    display: inline-block;
+}
+
+.trust-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 20px;
+    background: white;
+    border: 1.5px solid #e5e7eb;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.trust-chip:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: #d1d5db;
+}
+
+.chip-label {
+    font-size: 0.85rem;
+    color: var(--text-main);
+}
+
+.dropdown-arrow {
+    color: #9ca3af;
+    transition: transform 0.2s;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
+.trust-popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 280px;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+    z-index: 100;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.popover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.status-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.status-pill.trusted {
+    background: #ecfdf5;
+    color: #065f46;
+}
+
+.status-pill.medium {
+    background: #fffbeb;
+    color: #92400e;
+}
+
+.status-pill.risky {
+    background: #fef2f2;
+    color: #991b1b;
+}
+
+.popover-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+}
+
+.breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+}
+
+.item-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.item-value {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.popover-footer {
+    border-top: 1px solid #f3f4f6;
+    padding-top: 0.75rem;
+}
+
+.popover-footer span {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-main);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.info-tooltip {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+/* 2. Risk Indicator Styles */
+.risk-indicator-wrapper {
+    width: 100%;
+}
+
+.risk-main-card {
+    border-radius: 16px;
+    padding: 1.5rem;
+}
+
+.risk-header {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+}
+
+.risk-visual {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.risk-level-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.risk-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.risk-info p {
+    font-size: 0.8rem;
+    color: #4b5563;
+    line-height: 1.4;
+}
+
+.high-risk-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    background: #991b1b;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.risk-expand-btn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding: 0;
+}
+
+.reasons-list {
+    list-style: none;
+    padding: 1rem 0 0 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.reasons-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: #4b5563;
+}
+
+/* 3. Fair Price Meter Styles */
+.price-meter-card {
+    padding: 1.5rem;
+}
+
+.meter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.meter-header h3 {
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.status-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+}
+
+.status-text.fair {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-text.below {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.status-text.above {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.meter-visual-container {
+    margin-bottom: 1.5rem;
+}
+
+.meter-track {
+    position: relative;
+    height: 8px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    margin-top: 3rem;
+}
+
+.market-band {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: #10b98133;
+    border-left: 1.5px dashed #10b98166;
+    border-right: 1.5px dashed #10b98166;
+}
+
+.band-label {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #059669;
+    white-space: nowrap;
+}
+
+.price-pointer {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 0;
+}
+
+.pointer-tag {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-main);
+    color: white;
+    padding: 0.4rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.tag-arrow {
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--text-main);
+}
+
+.pointer-dot {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: white;
+    border: 3px solid var(--text-main);
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.meter-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.price-analysis-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 1rem;
+}
+
+.deviation-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.deviation-stat span {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.suggestion-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #4b5563;
+}
+
+.suggestion-box strong {
+    color: var(--text-main);
+}
+
+/* Helpers */
+.success {
+    color: #10b981;
+}
+
+.warning {
+    color: #f59e0b;
+}
+
+.danger {
+    color: #ef4444;
+}
+
+.text-success {
+    color: #059669;
+}
+
+.text-danger {
+    color: #dc2626;
+}
