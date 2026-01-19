@@ -74,12 +74,52 @@ export const MarketplaceProvider = ({ children }) => {
             farmerName: 'Ramesh Kumar', // Hardcoded for demo
             startDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
             endDate: 'TBD',
+            price: Number(offer.price), // Track unit price separately
             value: Number(offer.price) * Number(offer.quantity.split(' ')[0] || 100), // Approx value
+            quantity: offer.quantity,
             status: 'pending',
             progress: 0,
-            originalOfferId: offer.id
+            originalOfferId: offer.id,
+            negotiationHistory: [
+                {
+                    role: 'buyer', // The one who created the original offer
+                    price: Number(offer.price),
+                    date: new Date().toISOString(),
+                    message: 'Initial Offer Listing'
+                }
+            ]
         };
         setContracts(prev => [newContract, ...prev]);
+    };
+
+    const submitCounterOffer = (contractId, newPrice, message, role = 'farmer') => {
+        setContracts(prev => prev.map(c => {
+            if (c.id === contractId) {
+                const quantityNum = Number(c.quantity?.split(' ')[0] || 100);
+                return {
+                    ...c,
+                    price: Number(newPrice),
+                    value: Number(newPrice) * quantityNum,
+                    status: 'negotiating',
+                    negotiationHistory: [
+                        ...(c.negotiationHistory || []),
+                        {
+                            role,
+                            price: Number(newPrice),
+                            date: new Date().toISOString(),
+                            message
+                        }
+                    ]
+                };
+            }
+            return c;
+        }));
+    };
+
+    const acceptOffer = (contractId) => {
+        setContracts(prev => prev.map(c =>
+            c.id === contractId ? { ...c, status: 'active' } : c
+        ));
     };
 
     const updateContractStatus = (contractId, newStatus) => {
@@ -93,7 +133,9 @@ export const MarketplaceProvider = ({ children }) => {
         contracts,
         addOffer,
         applyForOffer,
-        updateContractStatus
+        updateContractStatus,
+        submitCounterOffer,
+        acceptOffer
     };
 
     return (

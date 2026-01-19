@@ -172,6 +172,28 @@
     color: #3730A3;
 }
 
+.status-negotiating .statusBadge {
+    background: #FCE7F3;
+    color: #BE185D;
+}
+
+.negotiateButton {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: #16a34a;
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-right: 0.5rem;
+}
+
+.negotiateButton:hover {
+    background: #15803d;
+}
+
 .actionButton {
     padding: 0.5rem;
     border: 1px solid var(--border-color);
@@ -186,6 +208,12 @@
     background: var(--surface-hover);
     color: var(--primary);
     border-color: var(--primary);
+}
+
+.actionsGroup {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .emptyState {

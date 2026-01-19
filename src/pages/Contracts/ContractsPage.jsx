@@ -2,15 +2,39 @@ import React from 'react';
 import { FileText, Clock, CheckCircle, ChevronRight, Shield } from 'lucide-react';
 import { useMarketplace } from '../../contexts/MarketplaceContext';
 import styles from './ContractsPage.module.css';
+import NegotiationModal from '../../components/common/NegotiationModal';
 
 const ContractsPage = ({ role = 'farmer' }) => {
-    const { contracts } = useMarketplace();
+    const { contracts, submitCounterOffer, acceptOffer } = useMarketplace();
+    const [selectedContract, setSelectedContract] = React.useState(null);
+    const [isNegotiationOpen, setIsNegotiationOpen] = React.useState(false);
+
+    const handleNegotiateClick = (contract) => {
+        setSelectedContract(contract);
+        setIsNegotiationOpen(true);
+    };
+
+    const handleCloseNegotiation = () => {
+        setIsNegotiationOpen(false);
+        setSelectedContract(null);
+    };
+
+    const handleSubmitOffer = (id, price, message) => {
+        submitCounterOffer(id, price, message, role);
+        // Don't close immediately, let them see it updated
+    };
+
+    const handleAcceptOffer = (id) => {
+        acceptOffer(id);
+        setIsNegotiationOpen(false);
+    };
 
     const getStatusIcon = (status) => {
         switch (status) {
             case 'active': return <Clock size={16} />;
             case 'completed': return <CheckCircle size={16} />;
             case 'pending': return <Clock size={16} />;
+            case 'negotiating': return <Shield size={16} />;
             default: return <FileText size={16} />;
         }
     };
@@ -96,7 +120,15 @@ const ContractsPage = ({ role = 'farmer' }) => {
                                     </span>
                                 </div>
 
-                                <div>
+                                <div className={styles.actionsGroup}>
+                                    {(contract.status === 'pending' || contract.status === 'negotiating') && (
+                                        <button
+                                            className={styles.negotiateButton}
+                                            onClick={() => handleNegotiateClick(contract)}
+                                        >
+                                            Negotiate
+                                        </button>
+                                    )}
                                     <button className={styles.actionButton}>
                                         <ChevronRight size={20} />
                                     </button>
@@ -111,7 +143,16 @@ const ContractsPage = ({ role = 'farmer' }) => {
                     </div>
                 )}
             </div>
-        </div>
+
+            <NegotiationModal
+                contract={selectedContract}
+                isOpen={isNegotiationOpen}
+                onClose={handleCloseNegotiation}
+                onSubmitOffer={handleSubmitOffer}
+                onAcceptOffer={handleAcceptOffer}
+                userRole={role}
+            />
+        </div >
     );
 };
 

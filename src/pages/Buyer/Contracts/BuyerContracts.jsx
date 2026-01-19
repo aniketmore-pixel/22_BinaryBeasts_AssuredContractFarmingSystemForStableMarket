@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useMarketplace } from '../../../contexts/MarketplaceContext';
 import styles from './BuyerContracts.module.css';
-import { User, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { User, CheckCircle, XCircle, Clock, Shield } from 'lucide-react';
+import NegotiationModal from '../../../components/common/NegotiationModal';
 
 const BuyerContracts = () => {
-    const { contracts, updateContractStatus } = useMarketplace();
+    const { contracts, updateContractStatus, submitCounterOffer, acceptOffer } = useMarketplace();
     const [activeTab, setActiveTab] = useState('pending');
+    const [selectedContract, setSelectedContract] = useState(null);
+    const [isNegotiationOpen, setIsNegotiationOpen] = useState(false);
 
     const filteredContracts = contracts.filter(c =>
         activeTab === 'all' ? true : c.status === activeTab
@@ -23,6 +26,20 @@ const BuyerContracts = () => {
         }
     };
 
+    const handleNegotiateClick = (contract) => {
+        setSelectedContract(contract);
+        setIsNegotiationOpen(true);
+    };
+
+    const handleSubmitOffer = (id, price, message) => {
+        submitCounterOffer(id, price, message, 'buyer');
+    };
+
+    const handleAcceptOffer = (id) => {
+        acceptOffer(id);
+        setIsNegotiationOpen(false);
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -35,7 +52,13 @@ const BuyerContracts = () => {
                     className={`${styles.tab} ${activeTab === 'pending' ? styles.activeTab : ''}`}
                     onClick={() => setActiveTab('pending')}
                 >
-                    Pending Applications ({contracts.filter(c => c.status === 'pending').length})
+                    Pending ({contracts.filter(c => c.status === 'pending').length})
+                </button>
+                <button
+                    className={`${styles.tab} ${activeTab === 'negotiating' ? styles.activeTab : ''}`}
+                    onClick={() => setActiveTab('negotiating')}
+                >
+                    Negotiating ({contracts.filter(c => c.status === 'negotiating').length})
                 </button>
                 <button
                     className={`${styles.tab} ${activeTab === 'active' ? styles.activeTab : ''}`}
@@ -81,7 +104,7 @@ const BuyerContracts = () => {
                                 <span className={styles.detailValue}>{contract.startDate}</span>
                             </div>
 
-                            {contract.status === 'pending' && (
+                            {(contract.status === 'pending' || contract.status === 'negotiating') && (
                                 <div className={styles.actions}>
                                     <button
                                         className={styles.rejectBtn}
@@ -90,10 +113,16 @@ const BuyerContracts = () => {
                                         Reject
                                     </button>
                                     <button
+                                        className={styles.negotiateBtn}
+                                        onClick={() => handleNegotiateClick(contract)}
+                                    >
+                                        Negotiate
+                                    </button>
+                                    <button
                                         className={styles.approveBtn}
                                         onClick={() => handleApprove(contract.id)}
                                     >
-                                        Approve Contract
+                                        Approve
                                     </button>
                                 </div>
                             )}
@@ -117,6 +146,14 @@ const BuyerContracts = () => {
                     </div>
                 )}
             </div>
+            <NegotiationModal
+                contract={selectedContract}
+                isOpen={isNegotiationOpen}
+                onClose={() => setIsNegotiationOpen(false)}
+                onSubmitOffer={handleSubmitOffer}
+                onAcceptOffer={handleAcceptOffer}
+                userRole="buyer"
+            />
         </div>
     );
 };
