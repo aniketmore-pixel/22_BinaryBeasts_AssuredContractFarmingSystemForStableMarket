@@ -1,0 +1,283 @@
+.container {
+    padding: 2rem;
+    width: 100%;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+}
+
+.timelineWrapper {
+    position: relative;
+    padding: 1rem 0;
+}
+
+/* Desktop Horizontal Layout */
+.timelineDesktop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    padding-top: 2rem;
+}
+
+/* Progress Bar Background */
+.progressTrack {
+    position: absolute;
+    top: 2.75rem;
+    /* Aligns with the center of the step circle (size is 3rem, so 1.5rem padding + 1.5rem/2) - simplified adjustment */
+    top: 1.5rem;
+    /* Circle is ~3rem height. Half is 1.5rem. */
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--border-color, #E5E7EB);
+    z-index: 0;
+    border-radius: 4px;
+}
+
+/* Filled Progress Bar */
+.progressFill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--primary, #10B981);
+    border-radius: 4px;
+    transition: width 0.5s ease-in-out;
+}
+
+.step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+
+.stepIconWrapper {
+    width: 3rem;
+    height: 3rem;
+    background: var(--surface, #ffffff);
+    border: 2px solid var(--border-color, #E5E7EB);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    color: var(--text-muted, #9CA3AF);
+}
+
+.active .stepIconWrapper {
+    border-color: var(--primary, #10B981);
+    box-shadow: 0 0 0 4px var(--primary-light, #10B98120);
+    color: var(--primary, #10B981);
+    transform: scale(1.1);
+}
+
+.completed .stepIconWrapper {
+    background: var(--primary, #10B981);
+    border-color: var(--primary, #10B981);
+    color: white;
+}
+
+.failed .stepIconWrapper {
+    border-color: var(--danger, #EF4444);
+    color: var(--danger, #EF4444);
+    background: #FEF2F2;
+}
+
+.stepContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+    width: 90%;
+}
+
+.stepTitle {
+    font-weight: 600;
+    color: var(--text-primary, #111827);
+    font-size: 0.95rem;
+}
+
+.amount {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+}
+
+.date {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #6B7280);
+}
+
+.statusBadge {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-top: 0.5rem;
+    display: inline-block;
+}
+
+.statusPending {
+    background: var(--surface-hover, #F3F4F6);
+    color: var(--text-secondary, #6B7280);
+}
+
+.statusPaid {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.statusFailed {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.actionButton {
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    background: var(--surface, #fff);
+    border: 1px solid var(--border-color, #E5E7EB);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    color: var(--text-secondary, #4B5563);
+}
+
+.actionButton:hover {
+    background: var(--primary-light, #10B98110);
+    color: var(--primary, #10B981);
+    border-color: var(--primary, #10B981);
+}
+
+/* Mobile Vertical Layout */
+.mobileContainer {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mobileStepCard {
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border-color, #E5E7EB);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobileStepCard.activeMobile {
+    border-color: var(--primary, #10B981);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+
+.mobileStepCard::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: transparent;
+}
+
+.mobileStepCard.completedMobile::before {
+    background: var(--primary, #10B981);
+}
+
+.mobileStepCard.activeMobile::before {
+    background: var(--primary, #10B981);
+}
+
+.mobileStepCard.failedMobile::before {
+    background: var(--danger, #EF4444);
+}
+
+.mobileIcon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--surface-hover, #F3F4F6);
+    color: var(--text-muted, #9CA3AF);
+}
+
+.completedMobile .mobileIcon {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.failedMobile .mobileIcon {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.mobileContent {
+    flex: 1;
+}
+
+.mobileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.25rem;
+}
+
+.mobileTitle {
+    font-weight: 600;
+    color: var(--text-primary, #111827);
+}
+
+.mobileAmount {
+    font-weight: 700;
+    color: var(--text-primary, #111827);
+}
+
+.mobileDescription {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #6B7280);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.mobileFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.mobileDate {
+    font-size: 0.75rem;
+    color: var(--text-muted, #9CA3AF);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .timelineDesktop {
+        display: none;
+    }
+
+    .mobileContainer {
+        display: flex;
+    }
+}

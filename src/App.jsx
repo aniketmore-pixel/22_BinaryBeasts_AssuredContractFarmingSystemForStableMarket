@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { DisputeProvider } from "./contexts/DisputeContext";
+import { MarketplaceProvider } from "./contexts/MarketplaceContext";
 import SmoothScroll from "./components/common/SmoothScroll";
 
 // Components
@@ -25,6 +26,11 @@ import AdminDisputeDetail from "./pages/Admin/AdminDisputeDetail";
 
 // Calendar Page
 import ContractCalendar from "./pages/Calendar/ContractCalendar";
+import PaymentsPage from "./pages/Payments/PaymentsPage";
+import FindOffers from "./pages/Offers/FindOffers";
+import CreateOffer from "./pages/Buyer/Offers/CreateOffer";
+import ContractsPage from "./pages/Contracts/ContractsPage";
+import BuyerContracts from "./pages/Buyer/Contracts/BuyerContracts";
 
 // Simple internal card used for stubs
 const Card = ({ title, children }) => (
@@ -56,7 +62,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   if (allowedRoles && !allowedRoles.includes(role)) {
     // Redirect to correct dashboard
-    return <Navigate to={`/${role}`} replace />;
+    return <Navigate to={`/${role?.toLowerCase()}`} replace />;
   }
 
   return children;
@@ -64,21 +70,21 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 // Farmer Layout with nested routes
 const FarmerRoutes = () => (
-  <Layout role="FARMER" title="Farmer Dashboard">
+  <Layout role="farmer" title="Farmer Dashboard">
     <Outlet />
   </Layout>
 );
 
 // Buyer Layout with nested routes
 const BuyerRoutes = () => (
-  <Layout role="BUYER" title="Corporate Dashboard">
+  <Layout role="buyer" title="Corporate Dashboard">
     <Outlet />
   </Layout>
 );
 
 // Admin Layout with nested routes
 const AdminRoutes = () => (
-  <Layout role="ADMIN" title="Admin Portal">
+  <Layout role="admin" title="Admin Portal">
     <Outlet />
   </Layout>
 );
@@ -99,51 +105,51 @@ const AnimatedRoutes = () => {
         <Route path="/ui-demo/insights" element={<PageWrapper><InsightsDemo /></PageWrapper>} />
 
         {/* Farmer Routes */}
-        <Route path="/FARMER" element={
-          <ProtectedRoute allowedRoles={['FARMER']}>
+        <Route path="/farmer" element={
+          <ProtectedRoute allowedRoles={['farmer', 'FARMER']}>
             <FarmerRoutes />
           </ProtectedRoute>
         }>
           <Route index element={<FarmerDashboard />} />
-          <Route path="contracts" element={<Card title="My Contracts">Contract list coming soon...</Card>} />
-          <Route path="offers" element={<Card title="Available Offers">Browse offers coming soon...</Card>} />
-          <Route path="payments" element={<Card title="Payments & Escrow">Wallet history coming soon...</Card>} />
-          <Route path="calendar" element={<ContractCalendar role="FARMER" />} />
+          <Route path="contracts" element={<ContractsPage role="farmer" />} />
+          <Route path="offers" element={<FindOffers />} />
+          <Route path="payments" element={<PaymentsPage role="farmer" />} />
+          <Route path="calendar" element={<ContractCalendar role="farmer" />} />
           <Route path="profile" element={<Card title="My Profile">KYC details coming soon...</Card>} />
 
           {/* Dispute Routes */}
-          <Route path="disputes" element={<DisputeListView role="FARMER" />} />
-          <Route path="disputes/new" element={<NewDisputeForm role="FARMER" />} />
-          <Route path="disputes/:id" element={<DisputeDetailView role="FARMER" />} />
+          <Route path="disputes" element={<DisputeListView role="farmer" />} />
+          <Route path="disputes/new" element={<NewDisputeForm role="farmer" />} />
+          <Route path="disputes/:id" element={<DisputeDetailView role="farmer" />} />
         </Route>
 
         {/* Buyer Routes */}
-        <Route path="/BUYER" element={
-          <ProtectedRoute allowedRoles={['BUYER']}>
+        <Route path="/buyer" element={
+          <ProtectedRoute allowedRoles={['buyer', 'BUYER']}>
             <BuyerRoutes />
           </ProtectedRoute>
         }>
           <Route index element={<BuyerDashboard />} />
-          <Route path="create-offer" element={<Card title="Create New Contract Offer">Form coming soon...</Card>} />
-          <Route path="contracts" element={<Card title="Procurement Tracking">Manage contracts coming soon...</Card>} />
-          <Route path="payments" element={<Card title="Escrow Management">Funds control coming soon...</Card>} />
-          <Route path="calendar" element={<ContractCalendar role="BUYER" />} />
+          <Route path="create-offer" element={<CreateOffer />} />
+          <Route path="contracts" element={<BuyerContracts />} />
+          <Route path="payments" element={<PaymentsPage role="buyer" />} />
+          <Route path="calendar" element={<ContractCalendar role="buyer" />} />
           <Route path="profile" element={<Card title="Company Profile">Verification status...</Card>} />
 
           {/* Dispute Routes */}
-          <Route path="disputes" element={<DisputeListView role="BUYER" />} />
-          <Route path="disputes/new" element={<NewDisputeForm role="BUYER" />} />
-          <Route path="disputes/:id" element={<DisputeDetailView role="BUYER" />} />
+          <Route path="disputes" element={<DisputeListView role="buyer" />} />
+          <Route path="disputes/new" element={<NewDisputeForm role="buyer" />} />
+          <Route path="disputes/:id" element={<DisputeDetailView role="buyer" />} />
         </Route>
 
         {/* Admin Routes */}
-        <Route path="/ADMIN" element={
-          <ProtectedRoute allowedRoles={['ADMIN']}>
+        <Route path="/admin" element={
+          <ProtectedRoute allowedRoles={['admin', 'ADMIN']}>
             <AdminRoutes />
           </ProtectedRoute>
         }>
           <Route index element={<AdminDashboard />} />
-          <Route path="calendar" element={<ContractCalendar role="ADMIN" />} />
+          <Route path="calendar" element={<ContractCalendar role="admin" />} />
           {/* Dispute Routes */}
           <Route path="disputes" element={<AdminDisputeList />} />
           <Route path="disputes/:id" element={<AdminDisputeDetail />} />
@@ -159,13 +165,15 @@ const AnimatedRoutes = () => {
 function App() {
   return (
     <AuthProvider>
-      <DisputeProvider>
-        <SmoothScroll>
-          <Router>
-            <AnimatedRoutes />
-          </Router>
-        </SmoothScroll>
-      </DisputeProvider>
+      <MarketplaceProvider>
+        <DisputeProvider>
+          <SmoothScroll>
+            <Router>
+              <AnimatedRoutes />
+            </Router>
+          </SmoothScroll>
+        </DisputeProvider>
+      </MarketplaceProvider>
     </AuthProvider>
   );
 }

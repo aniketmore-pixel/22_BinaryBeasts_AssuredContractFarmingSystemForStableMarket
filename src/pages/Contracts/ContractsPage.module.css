@@ -1,0 +1,223 @@
+.container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    color: var(--text-secondary);
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.statCard {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition);
+}
+
+.statIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.statInfo h3 {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+/* Contract Cards List */
+.contractList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contractCard {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+}
+
+.contractCard:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--primary-light);
+}
+
+.statusStrip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--border-color);
+}
+
+.status-active .statusStrip {
+    background: var(--primary);
+}
+
+.status-pending .statusStrip {
+    background: #F59E0B;
+}
+
+.status-completed .statusStrip {
+    background: #10B981;
+}
+
+.cardContent {
+    padding: 1.5rem;
+    padding-left: 2rem;
+    /* Make space for strip */
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.mainInfo h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.partnerName {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detailBlock label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.detailBlock span {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.statusBadge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.status-active .statusBadge {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.status-pending .statusBadge {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.status-completed .statusBadge {
+    background: #E0E7FF;
+    color: #3730A3;
+}
+
+.actionButton {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.actionButton:hover {
+    background: var(--surface-hover);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--surface);
+    border: 1px dashed var(--border-color);
+    border-radius: 16px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 1024px) {
+    .cardContent {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .mainInfo {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 640px) {
+    .cardContent {
+        grid-template-columns: 1fr;
+    }
+
+    .mainInfo {
+        grid-column: span 1;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import {
     LayoutDashboard,
     FileText,
@@ -16,6 +16,14 @@ import {
 import './Sidebar.css';
 
 const Sidebar = ({ role }) => {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
     const farmerLinks = [
         { name: 'Dashboard', path: '/farmer', icon: LayoutDashboard },
         { name: 'Calendar', path: '/farmer/calendar', icon: Calendar },
@@ -80,7 +88,7 @@ const Sidebar = ({ role }) => {
                 </NavLink>
             </nav>
             <div className="sidebar-footer">
-                <button className="nav-item logout-btn">
+                <button className="nav-item logout-btn" onClick={handleLogout}>
                     <LogOut className="nav-icon" size={20} />
                     <span>Logout</span>
                 </button>
