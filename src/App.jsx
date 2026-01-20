@@ -4,6 +4,9 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { DisputeProvider } from "./contexts/DisputeContext";
 import { MarketplaceProvider } from "./contexts/MarketplaceContext";
 import SmoothScroll from "./components/common/SmoothScroll";
+import OfferDetails from "./pages/Offers/OfferDetails";
+import CounterOffer from "./pages/counterOffer";
+
 
 // Components
 import Layout from "./components/layout/Layout";
@@ -103,6 +106,11 @@ const AnimatedRoutes = () => {
         <Route path="/signup" element={<PageWrapper><Signup /></PageWrapper>} />
         <Route path="/ui-demo/timeline" element={<PageWrapper><TimelineDemo /></PageWrapper>} />
         <Route path="/ui-demo/insights" element={<PageWrapper><InsightsDemo /></PageWrapper>} />
+        <Route path="/offers/:offerId" element={<OfferDetails />} />
+        <Route
+          path="/offers/:offerId/counter"
+          element={<CounterOffer />}
+        />
 
         {/* Farmer Routes */}
         <Route path="/farmer" element={

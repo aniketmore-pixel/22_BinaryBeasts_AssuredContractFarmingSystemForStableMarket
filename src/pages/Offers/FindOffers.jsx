@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { Search, Filter, MapPin, Calendar, Scale, ShieldCheck } from 'lucide-react';
 import { useMarketplace } from '../../contexts/MarketplaceContext';
 import styles from './FindOffers.module.css';
+import { useNavigate } from "react-router-dom";
+
 
 const FindOffers = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
+
     const { offers, applyForOffer } = useMarketplace();
 
     const filteredOffers = offers.filter(offer =>
@@ -83,7 +87,13 @@ const FindOffers = () => {
                         </div>
 
                         <div className={styles.cardFooter}>
-                            <button className={styles.viewButton}>Details</button>
+                            <button
+                                className={styles.viewButton}
+                                onClick={() => navigate(`/offers/${offer.id}`)}
+                            >
+                                Details
+                            </button>
+
                             <button
                                 className={styles.applyButton}
                                 onClick={() => {
