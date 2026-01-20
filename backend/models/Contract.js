@@ -50,8 +50,8 @@ const ContractSchema = new mongoose.Schema(
     notes: String,
 
     /* ===== Dispute notes ===== */
-    farmer_dispute_note: { type: String },
-    buyer_dispute_note: { type: String }
+    farmer_dispute_note: { type: String, default: "" },
+    buyer_dispute_note: { type: String, default: "" }
   },
   {
     timestamps: {

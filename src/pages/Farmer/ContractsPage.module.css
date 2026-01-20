@@ -109,3 +109,80 @@
     color: #6b7280;
   }
   
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .cancel {
+    background-color: #f87171; /* red */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .dispute {
+    background-color: #facc15; /* yellow */
+    color: black;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .delivered {
+    background-color: #34d399; /* green */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .negotiate {
+    background-color: #60a5fa; /* blue */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* =========================
+   Resolved Button
+========================= */
+
+.actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.resolved {
+  padding: 8px 16px;
+  background-color: #2e7d32; /* green */
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resolved:hover {
+  background-color: #1b5e20;
+  transform: translateY(-1px);
+}
+
+.resolved:active {
+  transform: translateY(0);
+}
+
+.resolved:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}

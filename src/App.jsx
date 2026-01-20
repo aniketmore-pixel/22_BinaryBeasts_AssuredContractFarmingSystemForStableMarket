@@ -5,6 +5,7 @@ import { MarketplaceProvider } from "./contexts/MarketplaceContext";
 import SmoothScroll from "./components/common/SmoothScroll";
 import OfferDetails from "./pages/Offers/OfferDetails";
 import CounterOffer from "./pages/counterOffer";
+import BuyerContracts from "./pages/Buyer/Contracts/BuyerContracts";
 
 
 // Components
@@ -28,8 +29,11 @@ import PaymentsPage from "./pages/Payments/PaymentsPage";
 import FindOffers from "./pages/Offers/FindOffers";
 import CreateOffer from "./pages/Buyer/Offers/CreateOffer";
 import ContractsPage from "./pages/Contracts/ContractsPage";
-import BuyerContracts from "./pages/Buyer/Contracts/BuyerContracts";
+
 import MarketTrendsPage from "./pages/Market/MarketTrendsPage";
+import FarmerDisputes from "./pages/Farmer/FarmerDisputes";
+import DisputeListView from "./pages/Disputes/DisputeListView";
+
 
 // Simple internal card used for stubs
 const Card = ({ title, children }) => (
@@ -107,6 +111,7 @@ const AnimatedRoutes = () => {
           path="/offers/:offerId/counter"
           element={<CounterOffer />}
         />
+        
 
         {/* Farmer Routes */}
         <Route path="/farmer" element={
@@ -121,7 +126,12 @@ const AnimatedRoutes = () => {
           <Route path="calendar" element={<ContractCalendar role="farmer" />} />
           <Route path="profile" element={<Card title="My Profile">KYC details coming soon...</Card>} />
           <Route path="market-trends" element={<MarketTrendsPage />} />
-          <Route path="disputes" element={<DisputesPage role="farmer" />} />
+          
+
+          {/* Dispute Routes */}
+          <Route path="disputes" element={<FarmerDisputes role="farmer" />} />
+          
+          {/* <Route path="disputes/:id" element={<DisputeDetailView role="farmer" />} /> */}
         </Route>
 
         {/* Buyer Routes */}
@@ -130,13 +140,14 @@ const AnimatedRoutes = () => {
             <BuyerRoutes />
           </ProtectedRoute>
         }>
+          <Route path="contracts" element={<BuyerContracts />} />
           <Route index element={<BuyerDashboard />} />
           <Route path="create-offer" element={<CreateOffer />} />
           <Route path="contracts" element={<BuyerContracts />} />
           <Route path="payments" element={<PaymentsPage role="buyer" />} />
           <Route path="calendar" element={<ContractCalendar role="buyer" />} />
           <Route path="profile" element={<Card title="Company Profile">Verification status...</Card>} />
-          <Route path="disputes" element={<DisputesPage role="buyer" />} />
+          <Route path="disputes" element={<DisputeListView role="buyer" />} />
         </Route>
 
         {/* Admin Routes */}

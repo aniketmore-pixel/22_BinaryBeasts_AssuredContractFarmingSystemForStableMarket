@@ -1,103 +1,183 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDisputes } from '../../contexts/DisputeContext';
-import { StatusBadge, PriorityTag } from '../../components/disputes/DisputeComponents';
-import styles from './DisputePages.module.css';
+import React, { useEffect, useState } from "react";
+import styles from "./ContractsPage.module.css";
 
-const DisputeListView = ({ role }) => {
-    const { disputes } = useDisputes();
-    const navigate = useNavigate();
-    const [filter, setFilter] = useState({ status: 'All', category: 'All', search: '' });
+const DisputeListView = () => {
+    const [buyerProfileId, setBuyerProfileId] = useState(null);
+    const [disputedContracts, setDisputedContracts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const filteredDisputes = disputes.filter(d => {
-        // In a real app, we'd also filter by userId matching the role
-        // For now we show all or simulate based on role labels in dummy data if needed
-        const statusMatch = filter.status === 'All' || d.status === filter.status;
-        const categoryMatch = filter.category === 'All' || d.category === filter.category;
-        const searchMatch = d.id.toLowerCase().includes(filter.search.toLowerCase()) ||
-            d.contractId.toLowerCase().includes(filter.search.toLowerCase());
-        return statusMatch && categoryMatch && searchMatch;
-    });
+    const handleAddNote = async (contractId) => {
+        const note = prompt("Enter your note:");
+        if (!note || note.trim() === "") return;
+
+        try {
+            const res = await fetch(
+                `http://localhost:5000/api/contracts/${contractId}/buyer-note`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ note })
+                }
+            );
+
+            if (!res.ok) throw new Error("Failed to add note");
+
+            alert("Note added successfully");
+
+            // optional UI update
+            setDisputedContracts(prev =>
+                prev.map(c =>
+                    c.contract_id === contractId
+                        ? { ...c, buyer_dispute_note: note }
+                        : c
+                )
+            );
+        } catch (err) {
+            console.error("❌ Failed to add note", err);
+        }
+    };
+
+    const handleResolve = async (contractId) => {
+        try {
+            const res = await fetch(
+                `http://localhost:5000/api/contracts/${contractId}/resolve/buyer`,
+                { method: "POST" }
+            );
+
+            if (!res.ok) throw new Error("Failed to resolve dispute");
+
+            alert("Dispute resolved from buyer side");
+
+            // optional: remove from list after resolve
+            setDisputedContracts(prev =>
+                prev.filter(c => c.contract_id !== contractId)
+            );
+        } catch (err) {
+            console.error("❌ Failed to resolve dispute", err);
+        }
+    };
+
+
+    /* =========================
+       1️⃣ Fetch buyer_profile_id
+    ========================= */
+    useEffect(() => {
+        const initBuyerProfile = async () => {
+            const userStr = localStorage.getItem("user");
+            if (!userStr) return;
+
+            const user = JSON.parse(userStr);
+            if (user.role !== "BUYER") return;
+
+            try {
+                const res = await fetch(
+                    `http://localhost:5000/api/getbp/profile-id/${user.id}`
+                );
+                const data = await res.json();
+                setBuyerProfileId(data.buyer_profile_id);
+            } catch (err) {
+                console.error("❌ Failed to fetch buyer profile id", err);
+            }
+        };
+
+        initBuyerProfile();
+    }, []);
+
+    /* =========================
+       2️⃣ Fetch buyer contracts & filter disputes
+    ========================= */
+    useEffect(() => {
+        if (!buyerProfileId) return;
+
+        const fetchDisputes = async () => {
+            try {
+                const res = await fetch(
+                    `http://localhost:5000/api/contracts/buyer/${buyerProfileId}`
+                );
+                const data = await res.json();
+
+                const disputesOnly = data.filter(
+                    c =>
+                        (c.farmer_dispute_note && c.farmer_dispute_note.trim() !== "") ||
+                        (c.buyer_dispute_note && c.buyer_dispute_note.trim() !== "")
+                );
+
+                setDisputedContracts(disputesOnly);
+            } catch (err) {
+                console.error("❌ Failed to fetch disputed contracts", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDisputes();
+    }, [buyerProfileId]);
+
+    if (loading) {
+        return <div className={styles.container}>Loading disputes...</div>;
+    }
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <div>
-                    <h1 className={styles.title}>Dispute Center</h1>
-                    <p className={styles.subtitle}>Manage and track your contract disputes</p>
-                </div>
-                <button
-                    className={styles.primaryBtn}
-                    onClick={() => navigate(`/${role}/disputes/new`)}
-                >
-                    Raise New Dispute
-                </button>
-            </div>
+            <h1 className={styles.title}>Contract Disputes</h1>
 
-            <div className={styles.filters}>
-                <div className={styles.filterGroup}>
-                    <label>Status</label>
-                    <select value={filter.status} onChange={e => setFilter({ ...filter, status: e.target.value })}>
-                        <option>All</option>
-                        <option>Open</option>
-                        <option>Under Review</option>
-                        <option>Resolved</option>
-                    </select>
+            {disputedContracts.length === 0 ? (
+                <div className={styles.emptyState}>
+                    No disputes found
                 </div>
-                <div className={styles.filterGroup}>
-                    <label>Category</label>
-                    <select value={filter.category} onChange={e => setFilter({ ...filter, category: e.target.value })}>
-                        <option>All</option>
-                        <option>Payment Delay</option>
-                        <option>Quality Issue</option>
-                        <option>Quantity Mismatch</option>
-                        <option>Delivery Delay</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div className={styles.filterGroup}>
-                    <label>Search</label>
-                    <input
-                        type="text"
-                        placeholder="Search ID or Contract..."
-                        value={filter.search}
-                        onChange={e => setFilter({ ...filter, search: e.target.value })}
-                    />
-                </div>
-            </div>
+            ) : (
+                <div className={styles.contractList}>
+                    {disputedContracts.map(contract => (
+                        <div key={contract.contract_id} className={styles.card}>
+                            <div className={styles.headerRow}>
+                                <h3>{contract.crop_name}</h3>
+                                <span className={styles.status}>
+                                    {contract.contract_status}
+                                </span>
+                            </div>
 
-            <div className={styles.list}>
-                {filteredDisputes.length > 0 ? (
-                    filteredDisputes.map(dispute => (
-                        <div
-                            key={dispute.id}
-                            className={styles.card}
-                            onClick={() => navigate(`/${role}/disputes/${dispute.id}`)}
-                        >
-                            <div className={styles.cardHeader}>
-                                <span className={styles.disputeId}>{dispute.id}</span>
-                                <StatusBadge status={dispute.status} />
+                            <div className={styles.row}>
+                                <span>Farmer</span>
+                                <span>{contract.farmer_name || "Farmer"}</span>
                             </div>
-                            <h3 className={styles.cardTitle}>{dispute.summary}</h3>
-                            <div className={styles.cardMeta}>
-                                <span>Contract: <strong>{dispute.contractId}</strong></span>
-                                <span>•</span>
-                                <span>{dispute.category}</span>
+
+                            <div className={styles.row}>
+                                <span>Farmer Note</span>
+                                <span>{contract.farmer_dispute_note || "—"}</span>
                             </div>
-                            <div className={styles.cardFooter}>
-                                <span className={styles.date}>{new Date(dispute.createdAt).toLocaleDateString()}</span>
-                                <PriorityTag priority={dispute.priority} />
+
+                            <div className={styles.row}>
+                                <span>Your Note</span>
+                                <span>{contract.buyer_dispute_note || "—"}</span>
                             </div>
+
+                            <div className={styles.row}>
+                                <span>Contract ID</span>
+                                <span className={styles.contractId}>
+                                    {contract.contract_id.slice(-6)}
+                                </span>
+                            </div>
+
+                            <div className={styles.actions}>
+                                <button
+                                    className={styles.dispute}
+                                    onClick={() => handleAddNote(contract.contract_id)}
+                                >
+                                    Add Note
+                                </button>
+
+                                <button
+                                    className={styles.resolve}
+                                    onClick={() => handleResolve(contract.contract_id)}
+                                >
+                                    Resolve
+                                </button>
+                            </div>
+
                         </div>
-                    ))
-                ) : (
-                    <div className={styles.emptyState}>
-                        <div className={styles.emptyIcon}>🔍</div>
-                        <h3>No disputes found</h3>
-                        <p>Try adjusting your filters or search terms.</p>
-                    </div>
-                )}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

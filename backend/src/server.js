@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 
 import usersRoutes from '../routes/users.js'
+import buyerContractsRoutes from "../routes/buyerContracts.js";
 import offersRoutes from "../routes/offers.js"
 import buyerProfileRoutes from "../routes/buyerProfile.js"
 import counterContractRoutes from "../routes/counterContract.js"
@@ -11,6 +12,8 @@ import counterOfferRoutes from "../routes/counterOfferRoutes.js"
 import counterCheckRoutes from "../routes/counterCheck.js"
 import { connectMongo } from "../config/mongodb.js";
 import testMongoRoute from "../routes/testMongo.js"
+import getbp from "../routes/getbp.js"
+import contracts from "../routes/contracts.js"
 
 const app = express()
 connectMongo();
@@ -43,13 +46,18 @@ app.get('/', (req, res) => {
    Routes
 ===================== */
 app.use('/api/users', usersRoutes)
+app.use("/api", buyerContractsRoutes);
 app.use('/api/offers', offersRoutes)
+app.use("/api/getbp", getbp);
 app.use('/api/buyer-profile', buyerProfileRoutes)
 app.use('/api', counterContractRoutes)
 app.use('/api', farmerProfileRoutes)
 app.use('/api', counterOfferRoutes)
 app.use('/api', counterCheckRoutes)
 app.use("/api", testMongoRoute);
+app.use("/api", contracts);
+
+
 
 /* =====================
    404 handler
