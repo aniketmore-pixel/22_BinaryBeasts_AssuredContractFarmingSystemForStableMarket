@@ -2,10 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, CheckCircle, AlertCircle, History } from 'lucide-react';
 import styles from './NegotiationModal.module.css';
 
+import FairPriceMeter from '../insights/FairPriceMeter';
+import '../insights/Insights.css';
+
 const NegotiationModal = ({ contract, isOpen, onClose, onSubmitOffer, onAcceptOffer, userRole = 'farmer' }) => {
     const [offerPrice, setOfferPrice] = useState(contract?.price || 0);
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
+
+    // Derived Market Data (Simulated)
+    const marketMin = contract ? Math.floor(contract.price * 0.9) : 0;
+    const marketMax = contract ? Math.floor(contract.price * 1.1) : 0;
 
     useEffect(() => {
         if (contract) {
@@ -47,10 +54,6 @@ const NegotiationModal = ({ contract, isOpen, onClose, onSubmitOffer, onAcceptOf
                         <p className={styles.subtext}>#{contract.id} • {contract.crop}</p>
                     </div>
                     <div className={styles.headerRight}>
-                        <div className={styles.marketRate}>
-                            <span className={styles.marketLabel}>Market Rate</span>
-                            <span className={styles.marketValue}>₹{Math.floor(contract.price * 1.05)} - ₹{Math.floor(contract.price * 1.15)}</span>
-                        </div>
                         <button onClick={onClose} className={styles.closeBtn}>
                             <X size={24} />
                         </button>
@@ -58,6 +61,16 @@ const NegotiationModal = ({ contract, isOpen, onClose, onSubmitOffer, onAcceptOf
                 </div>
 
                 <div className={styles.body}>
+                    {/* Integrated Insight Widget */}
+                    <div className="modal-insight-section" style={{ borderBottom: '1px solid #f0f0f0' }}>
+                        <FairPriceMeter
+                            marketMin={marketMin}
+                            marketMax={marketMax}
+                            offerPrice={offerPrice}
+                            unit="₹"
+                        />
+                    </div>
+
                     <div className={styles.historyContainer} ref={scrollRef}>
                         {contract.negotiationHistory && contract.negotiationHistory.map((item, index) => {
                             const isMe = item.role === userRole;

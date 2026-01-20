@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Calendar, Scale, ShieldCheck } from 'lucide-react';
 import { useMarketplace } from '../../contexts/MarketplaceContext';
 import styles from './FindOffers.module.css';
@@ -9,7 +9,15 @@ const FindOffers = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
-    const { offers, applyForOffer } = useMarketplace();
+    // Use fetchOffers from context to refresh data
+    const { offers, applyForOffer, fetchOffers } = useMarketplace();
+
+    // Refresh offers when component mounts to ensure latest data is shown
+    useEffect(() => {
+        if (fetchOffers) {
+            fetchOffers();
+        }
+    }, []);
 
     const filteredOffers = offers.filter(offer =>
         offer.crop.toLowerCase().includes(searchTerm.toLowerCase()) ||

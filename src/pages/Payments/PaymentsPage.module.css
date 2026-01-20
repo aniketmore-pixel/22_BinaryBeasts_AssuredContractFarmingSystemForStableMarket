@@ -232,6 +232,26 @@
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+
+    /* Allow tabs to scroll horizontally on small screens */
+    .tabs {
+        overflow-x: auto;
+        padding-bottom: 5px;
+        white-space: nowrap;
+        scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+        display: none;
+    }
+
     .contractHeader {
         flex-direction: column;
         gap: 1rem;
@@ -244,5 +264,21 @@
     .contractMeta {
         flex-direction: column;
         gap: 0.5rem;
+    }
+
+    .tableContainer {
+        overflow-x: auto;
+    }
+
+    .table {
+        min-width: 600px;
+        /* Force scroll */
+    }
+}
+
+/* Tweak Grid for smaller phones */
+@media (max-width: 480px) {
+    .walletGrid {
+        grid-template-columns: 1fr;
     }
 }

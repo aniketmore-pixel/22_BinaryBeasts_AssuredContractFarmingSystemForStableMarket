@@ -225,6 +225,12 @@
     color: var(--text-secondary);
 }
 
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+}
+
 @media (max-width: 1024px) {
     .cardContent {
         grid-template-columns: 1fr 1fr;
@@ -237,6 +243,12 @@
 }
 
 @media (max-width: 640px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
     .cardContent {
         grid-template-columns: 1fr;
     }

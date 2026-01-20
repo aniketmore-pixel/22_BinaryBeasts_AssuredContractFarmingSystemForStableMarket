@@ -1,114 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Wallet, ShieldCheck, TrendingUp, Clock, FileText, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { useMarketplace } from '../../contexts/MarketplaceContext';
 import PaymentMilestoneTimeline from '../../components/payments/PaymentMilestoneTimeline';
+import PaymentGatewayModal from '../../components/payments/PaymentGatewayModal';
 import styles from './PaymentsPage.module.css';
 
-const PaymentsPage = ({ role = 'farmer' }) => {
+const PaymentsPage = ({ role = 'farmer' }) => { // Change role to 'buyer' to test buyer flow
+    const { contracts, releasePayment, verifyDelivery } = useMarketplace();
     const [activeTab, setActiveTab] = useState('active');
+    const [stats, setStats] = useState({ available: 0, escrow: 0, total: 0 });
+    const [paymentRequest, setPaymentRequest] = useState(null); // { contractId, milestoneId, amount }
 
-    // Dummy Wallet Data
-    const walletData = {
-        totalBalance: role === 'farmer' ? 145000 : 2500000,
-        inEscrow: role === 'farmer' ? 48000 : 850000,
-        available: role === 'farmer' ? 97000 : 1650000,
+    // Filter only active contracts with milestones
+    const activeContracts = contracts.filter(c => c.status === 'active' && c.milestones);
+
+    // Calculate Wallet Stats Dynamically
+    useEffect(() => {
+        let available = 0;
+        let escrow = 0;
+        let total = 0;
+
+        activeContracts.forEach(c => {
+            c.milestones.forEach(m => {
+                if (m.status === 'PAID') {
+                    // For Farmer: Paid means available funds
+                    // For Buyer: Paid means money left the account (outflow), so we tracked it differently or just ignore for "Wallet" view?
+                    // Let's assume this view is the "Recipient" view (Farmer) mostly, or "Escrow Balance" for Buyer.
+                    // For simplicity:
+                    available += m.amount;
+                    total += m.amount;
+                } else {
+                    // Pending or Locked
+                    escrow += m.amount;
+                }
+            });
+        });
+
+        // Add some base fictitious balance so it's not zero
+        const baseBalance = role === 'farmer' ? 15000 : 500000;
+
+        setStats({
+            available: baseBalance + (role === 'farmer' ? available : -available),
+            escrow: escrow,
+            total: total
+        });
+    }, [contracts, role]);
+
+    const handleAction = (contractId, milestone) => {
+        if (role === 'buyer') {
+            // Buyer Logic
+            if (milestone.id === 'M1' && milestone.status === 'PENDING') {
+                // Open Payment Gateway for Advance
+                setPaymentRequest({ contractId, milestoneId: milestone.id, amount: milestone.amount });
+            } else if (milestone.id === 'M2' && milestone.status === 'PENDING') {
+                // Open Payment Gateway for Final
+                setPaymentRequest({ contractId, milestoneId: milestone.id, amount: milestone.amount });
+            } else if (milestone.id === 'M2' && milestone.status === 'LOCKED') {
+                verifyDelivery(contractId); // Buyer confirms delivery
+            }
+        } else {
+            // Farmer Logic
+            if (milestone.id === 'M2' && milestone.status === 'LOCKED') {
+                // Farmer could requesting verification, but simpler to let Buyer do it
+                alert("Waiting for Buyer to verify delivery.");
+            }
+        }
     };
 
-    // Dummy Contracts Data for Timeline
-    const activeContracts = [
-        {
-            id: 'C101',
-            crop: 'Organic Wheat Shrbati',
-            buyer: 'AgroCorp India Ltd.',
-            farmer: 'Ramesh Kumar',
-            totalValue: 60000,
-            startDate: '2026-01-15',
-            milestones: [
-                {
-                    id: "M1",
-                    title: "Advance Payment",
-                    description: "20% advance payment upon contract signing.",
-                    amount: 12000,
-                    currency: "INR",
-                    dueDate: "2026-01-15",
-                    paidDate: "2026-01-16",
-                    status: "PAID"
-                },
-                {
-                    id: "M2",
-                    title: "Delivery Verification",
-                    description: "Quality check and weighing at collection center.",
-                    amount: 0,
-                    currency: "INR",
-                    dueDate: "2026-04-10",
-                    paidDate: null,
-                    status: "PENDING",
-                    actionLabel: role === 'buyer' ? "Verify Delivery" : null
-                },
-                {
-                    id: "M3",
-                    title: "Final Settlement",
-                    description: "Remaining 80% released after verification.",
-                    amount: 48000,
-                    currency: "INR",
-                    dueDate: "2026-04-15",
-                    paidDate: null,
-                    status: "PENDING",
-                    actionLabel: role === 'buyer' ? "Release Payment" : null
-                }
-            ]
-        },
-        {
-            id: 'C102',
-            crop: 'Soybean Grade A',
-            buyer: 'PureFoods Pvt Ltd',
-            farmer: 'Ramesh Kumar',
-            totalValue: 85000,
-            startDate: '2025-12-20',
-            milestones: [
-                {
-                    id: "M1",
-                    title: "Advance Payment",
-                    amount: 17000,
-                    currency: "INR",
-                    dueDate: "2025-12-20",
-                    paidDate: "2025-12-21",
-                    status: "PAID"
-                },
-                {
-                    id: "M2",
-                    title: "Interim Inspection",
-                    description: "Field visit by buyer agent.",
-                    amount: 0,
-                    currency: "INR",
-                    dueDate: "2026-02-15",
-                    paidDate: null,
-                    status: "PENDING",
-                    actionLabel: role === 'buyer' ? "Log Inspection" : null
-                },
-                {
-                    id: "M3",
-                    title: "Final Settlement",
-                    amount: 68000,
-                    currency: "INR",
-                    dueDate: "2026-03-30",
-                    paidDate: null,
-                    status: "PENDING"
-                }
-            ]
+    const handlePaymentSuccess = () => {
+        if (paymentRequest) {
+            releasePayment(paymentRequest.contractId, paymentRequest.milestoneId);
+            setPaymentRequest(null);
         }
-    ];
-
-    // Dummy Transactions
-    const transactions = [
-        { id: 'T1', date: '2026-01-16', desc: 'Advance Payment - C101 Wheat', amount: 12000, type: 'credit', status: 'Completed' },
-        { id: 'T2', date: '2025-12-21', desc: 'Advance Payment - C102 Soybean', amount: 17000, type: 'credit', status: 'Completed' },
-        { id: 'T3', date: '2025-12-10', desc: 'Withdrawal to Bank Account', amount: -25000, type: 'debit', status: 'Completed' },
-        { id: 'T4', date: '2025-11-05', desc: 'Final Settlement - C099 Corn', amount: 45000, type: 'credit', status: 'Completed' },
-    ];
-
-    const currentMilestoneIds = {
-        'C101': 'M2',
-        'C102': 'M2'
     };
 
     return (
@@ -128,11 +91,11 @@ const PaymentsPage = ({ role = 'farmer' }) => {
                             <Wallet size={24} />
                         </div>
                     </div>
-                    <div className={styles.cardAmount}>₹{walletData.available.toLocaleString()}</div>
+                    <div className={styles.cardAmount}>₹{stats.available.toLocaleString()}</div>
                     <div className={styles.cardTrend}>
                         <ArrowUpRight size={16} className={styles.trendUp} />
-                        <span className={styles.trendUp}>+12%</span>
-                        <span style={{ color: 'var(--text-muted)' }}>vs last month</span>
+                        <span className={styles.trendUp}>Live</span>
+                        <span style={{ color: 'var(--text-muted)' }}> updated just now</span>
                     </div>
                 </div>
 
@@ -144,23 +107,25 @@ const PaymentsPage = ({ role = 'farmer' }) => {
                             <ShieldCheck size={24} />
                         </div>
                     </div>
-                    <div className={styles.cardAmount}>₹{walletData.inEscrow.toLocaleString()}</div>
+                    <div className={styles.cardAmount}>₹{stats.escrow.toLocaleString()}</div>
                     <div className={styles.cardTrend}>
-                        <span style={{ color: 'var(--text-muted)' }}>{role === 'farmer' ? 'Releasing soon' : 'Securing contracts'}</span>
+                        <span style={{ color: 'var(--text-muted)' }}>
+                            {role === 'farmer' ? 'Releasing on milestones' : 'Reserved for contracts'}
+                        </span>
                     </div>
                 </div>
 
-                {/* Total Lifetime Volume (or some other stat) */}
+                {/* Total Volume */}
                 <div className={styles.walletCard}>
                     <div className={styles.cardHeader}>
-                        <span className={styles.cardLabel}>Total Volume</span>
+                        <span className={styles.cardLabel}>Total Contract Value</span>
                         <div className={`${styles.cardIcon} ${styles.success}`}>
                             <TrendingUp size={24} />
                         </div>
                     </div>
-                    <div className={styles.cardAmount}>₹{walletData.totalBalance.toLocaleString()}</div>
+                    <div className={styles.cardAmount}>₹{(stats.escrow + stats.total).toLocaleString()}</div>
                     <div className={styles.cardTrend}>
-                        <span style={{ color: 'var(--text-muted)' }}>Lifetime earnings</span>
+                        <span style={{ color: 'var(--text-muted)' }}>Active deals</span>
                     </div>
                 </div>
             </div>
@@ -183,70 +148,69 @@ const PaymentsPage = ({ role = 'farmer' }) => {
 
             {activeTab === 'active' ? (
                 <div className={styles.contractList}>
-                    {activeContracts.map(contract => (
-                        <div key={contract.id} className={styles.contractCard}>
-                            <div className={styles.contractHeader}>
-                                <div className={styles.contractInfo}>
-                                    <h3>{contract.crop}</h3>
-                                    <div className={styles.contractMeta}>
-                                        <div className={styles.metaItem}>
-                                            <FileText size={16} />
-                                            <span>Contract #{contract.id}</span>
-                                        </div>
-                                        <div className={styles.metaItem}>
-                                            <Clock size={16} />
-                                            <span>Started {contract.startDate}</span>
-                                        </div>
-                                        <div className={styles.metaItem}>
-                                            <ShieldCheck size={16} />
-                                            <span>{role === 'farmer' ? `Buyer: ${contract.buyer}` : `Farmer: ${contract.farmer}`}</span>
+                    {activeContracts.length > 0 ? (
+                        activeContracts.map(contract => (
+                            <div key={contract.id} className={styles.contractCard}>
+                                <div className={styles.contractHeader}>
+                                    <div className={styles.contractInfo}>
+                                        <h3>{contract.crop}</h3>
+                                        <div className={styles.contractMeta}>
+                                            <div className={styles.metaItem}>
+                                                <FileText size={16} />
+                                                <span>Contract #{contract.id}</span>
+                                            </div>
+                                            <div className={styles.metaItem}>
+                                                <Clock size={16} />
+                                                <span>Started {contract.startDate}</span>
+                                            </div>
+                                            <div className={styles.metaItem}>
+                                                <ShieldCheck size={16} />
+                                                <span>{role === 'farmer' ? `Buyer: ${contract.partner}` : `Farmer: ${contract.farmerName}`}</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div className={styles.contractValue}>
+                                        <span className={styles.valueLabel}>Total Value</span>
+                                        <div className={styles.totalValue}>₹{contract.value.toLocaleString()}</div>
+                                    </div>
                                 </div>
-                                <div className={styles.contractValue}>
-                                    <span className={styles.valueLabel}>Total Value</span>
-                                    <div className={styles.totalValue}>₹{contract.totalValue.toLocaleString()}</div>
-                                </div>
-                            </div>
 
-                            {/* The Timeline Component */}
-                            <PaymentMilestoneTimeline
-                                milestones={contract.milestones}
-                                currentMilestoneId={currentMilestoneIds[contract.id]}
-                                onAction={(id) => console.log('Action on', id)}
-                            />
+                                {/* The Timeline Component */}
+                                <PaymentMilestoneTimeline
+                                    milestones={contract.milestones}
+                                    currentMilestoneId={null} // Not really needed if we render all
+                                    // Pass role-based action handler
+                                    onAction={(milestoneId) => {
+                                        const m = contract.milestones.find(x => x.id === milestoneId);
+                                        if (m) handleAction(contract.id, m);
+                                    }}
+                                    userRole={role} // Pass role to timeline to verify button visibility
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className={styles.emptyState}>
+                            <h3>No Active Payment Streams</h3>
+                            <p>Once you accept a contract offer, the escrow milestones will appear here.</p>
                         </div>
-                    ))}
+                    )}
                 </div>
             ) : (
                 <div className={styles.tableContainer}>
-                    <table className={styles.table}>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Reference</th>
-                                <th>Status</th>
-                                <th style={{ textAlign: 'right' }}>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.map(tx => (
-                                <tr key={tx.id}>
-                                    <td>{tx.date}</td>
-                                    <td>{tx.desc}</td>
-                                    <td>{tx.id}</td>
-                                    <td>
-                                        <span className={`badge badge-success`}>{tx.status}</span>
-                                    </td>
-                                    <td style={{ textAlign: 'right' }} className={tx.amount > 0 ? styles.amountPositive : styles.amountNegative}>
-                                        {tx.amount > 0 ? '+' : ''}₹{Math.abs(tx.amount).toLocaleString()}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <div className={styles.emptyState}>
+                        <p>Transaction history will appear here once payments are released.</p>
+                    </div>
                 </div>
+            )}
+
+            {/* Payment Gateway Modal */}
+            {paymentRequest && (
+                <PaymentGatewayModal
+                    isOpen={!!paymentRequest}
+                    onClose={() => setPaymentRequest(null)}
+                    amount={paymentRequest.amount}
+                    onProcessPayment={handlePaymentSuccess}
+                />
             )}
         </div>
     );

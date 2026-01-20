@@ -5,71 +5,71 @@ const router = express.Router();
 
 
 router.post("/", async (req, res) => {
-    console.log("📥 Incoming create offer request");
-    console.log(req.body);
-  
-    const {
-      offer_id,
-      buyer_user_id,
-      crop_name,
-      price_per_quintal,
-      quantity,
-      location,
-      duration_months,
-      quality_badges,
-      delivery_start_date,
-      offer_valid_till
-    } = req.body;
-  
-    /* ------------------ Basic Validation ------------------ */
-    if (
-      !offer_id ||
-      !buyer_user_id ||
-      !crop_name ||
-      !price_per_quintal ||
-      !quantity ||
-      !location ||
-      !duration_months ||
-      !delivery_start_date ||
-      !offer_valid_till
-    ) {
-      return res.status(400).json({
-        error: "Missing required fields"
-      });
-    }
-  
-    /* ------------------ Insert Offer ------------------ */
-    const { data, error } = await supabase
-      .from("offers")
-      .insert([
-        {
-          offer_id,
-          buyer_user_id,
-          crop_name,
-          price_per_quintal,
-          quantity,
-          location,
-          duration_months,
-          quality_badges,
-          delivery_start_date,
-          offer_valid_till
-        }
-      ])
-      .select()
-      .single();
-  
-    if (error) {
-      console.error("❌ Offer insert error:", error);
-      return res.status(500).json({ error: error.message });
-    }
-  
-    console.log("✅ Offer created:", data.offer_id);
-  
-    res.status(201).json({
-      message: "Offer created successfully",
-      offer: data
+  console.log("📥 Incoming create offer request");
+  console.log(req.body);
+
+  const {
+    offer_id,
+    buyer_user_id,
+    crop_name,
+    price_per_quintal,
+    quantity,
+    location,
+    duration_months,
+    quality_badges,
+    delivery_start_date,
+    offer_valid_till
+  } = req.body;
+
+  /* ------------------ Basic Validation ------------------ */
+  if (
+    !offer_id ||
+    !buyer_user_id ||
+    !crop_name ||
+    !price_per_quintal ||
+    !quantity ||
+    !location ||
+    !duration_months ||
+    !delivery_start_date ||
+    !offer_valid_till
+  ) {
+    return res.status(400).json({
+      error: "Missing required fields"
     });
+  }
+
+  /* ------------------ Insert Offer (Supabase) ------------------ */
+  const { data, error } = await supabase
+    .from("offers")
+    .insert([
+      {
+        offer_id,
+        buyer_user_id,
+        crop_name,
+        price_per_quintal,
+        quantity,
+        location,
+        duration_months,
+        quality_badges,
+        delivery_start_date,
+        offer_valid_till
+      }
+    ])
+    .select()
+    .single();
+
+  if (error) {
+    console.error("❌ Offer insert error:", error);
+    return res.status(500).json({ error: error.message });
+  }
+
+  console.log("✅ Offer created in Supabase:", data.offer_id);
+
+  res.status(201).json({
+    message: "Offer created successfully",
+    offer: data
   });
+});
 
 /**
  * GET /api/offers
@@ -145,13 +145,13 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-    const { id } = req.params;
-  
-    console.log("🔍 Fetching offer details for ID:", id);
-  
-    const { data, error } = await supabase
-      .from("offers")
-      .select(`
+  const { id } = req.params;
+
+  console.log("🔍 Fetching offer details for ID:", id);
+
+  const { data, error } = await supabase
+    .from("offers")
+    .select(`
         offer_id,
         crop_name,
         price_per_quintal,
@@ -169,41 +169,41 @@ router.get("/:id", async (req, res) => {
           registered_address
         )
       `)
-      .eq("offer_id", id)
-      .single();
-  
-    if (error) {
-      console.error("❌ Supabase error:", error);
-      return res.status(404).json({ error: "Offer not found" });
+    .eq("offer_id", id)
+    .single();
+
+  if (error) {
+    console.error("❌ Supabase error:", error);
+    return res.status(404).json({ error: "Offer not found" });
+  }
+
+  res.json({
+    id: data.offer_id,
+    crop: data.crop_name,
+    price: data.price_per_quintal,
+    quantity: data.quantity,
+    location: data.location,
+    duration: `${data.duration_months} months`,
+    delivery_start_date: data.delivery_start_date,
+    validTill: data.offer_valid_till,
+    reliabilityScore: data.reliability_score,
+    requirements: data.quality_badges,
+    buyer_user_id: data.buyer_user_id,  // <-- added this
+    buyer: {
+      name: data.buyer_profile.organization_name,
+      type: data.buyer_profile.buyer_type,
+      address: data.buyer_profile.registered_address
     }
-  
-    res.json({
-      id: data.offer_id,
-      crop: data.crop_name,
-      price: data.price_per_quintal,
-      quantity: data.quantity,
-      location: data.location,
-      duration: `${data.duration_months} months`,
-      delivery_start_date: data.delivery_start_date,
-      validTill: data.offer_valid_till,
-      reliabilityScore: data.reliability_score,
-      requirements: data.quality_badges,
-      buyer_user_id: data.buyer_user_id,  // <-- added this
-      buyer: {
-        name: data.buyer_profile.organization_name,
-        type: data.buyer_profile.buyer_type,
-        address: data.buyer_profile.registered_address
-      }
-    });
   });
-  
-  // GET /api/offers/:id/raw
+});
+
+// GET /api/offers/:id/raw
 router.get("/:id/raw", async (req, res) => {
-    const { id } = req.params;
-  
-    const { data, error } = await supabase
-      .from("offers")
-      .select(`
+  const { id } = req.params;
+
+  const { data, error } = await supabase
+    .from("offers")
+    .select(`
         offer_id,
         crop_name,
         price_per_quintal,
@@ -214,15 +214,15 @@ router.get("/:id/raw", async (req, res) => {
         offer_valid_till,
         buyer_user_id
       `)
-      .eq("offer_id", id)
-      .single();
-  
-    if (error) {
-      return res.status(404).json({ error: "Offer not found" });
-    }
-  
-    res.json(data);
-  });
-  
+    .eq("offer_id", id)
+    .single();
+
+  if (error) {
+    return res.status(404).json({ error: "Offer not found" });
+  }
+
+  res.json(data);
+});
+
 
 export default router;

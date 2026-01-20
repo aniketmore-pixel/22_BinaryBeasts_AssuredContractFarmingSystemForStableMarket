@@ -2,7 +2,7 @@ import React from 'react';
 import { Check, Clock, AlertTriangle, Calendar, ChevronRight } from 'lucide-react';
 import styles from './PaymentMilestoneTimeline.module.css';
 
-const PaymentMilestoneTimeline = ({ milestones = [], onAction, currentMilestoneId }) => {
+const PaymentMilestoneTimeline = ({ milestones = [], onAction, currentMilestoneId, userRole }) => {
     if (!milestones || milestones.length === 0) return null;
 
     // Helper to determine status color/icon
@@ -34,6 +34,20 @@ const PaymentMilestoneTimeline = ({ milestones = [], onAction, currentMilestoneI
     const allPaid = milestones.every(m => m.status === 'PAID');
     const displayProgress = allPaid ? 100 : Math.max(0, Math.min(progressPercentage, 100));
 
+    // Role-based Action Visibility Helper
+    const canShowAction = (milestone) => {
+        if (!milestone.actionLabel) return false;
+
+        // Example Logic based on action label naming convention
+        // 'Release' actions are typically Buyer actions
+        // 'Verify' actions are typically Buyer actions (Verify Delivery)
+        // Farmers might have 'Request' actions?
+
+        // Current logic in PaymentsPage uses role checks, but here we can refine it if needed.
+        // For now, we trust the 'onAction' handler passed down is valid for the role.
+        return true;
+    };
+
     return (
         <div className={styles.container}>
             {/* Desktop Horizontal View */}
@@ -64,7 +78,7 @@ const PaymentMilestoneTimeline = ({ milestones = [], onAction, currentMilestoneI
                                 <div className={styles.stepContent}>
                                     <div className={styles.stepTitle}>{milestone.title}</div>
                                     <div className={styles.amount}>
-                                        {milestone.currency} {milestone.amount.toLocaleString()}
+                                        {milestone.currency} {milestone.amount?.toLocaleString() || '0'}
                                     </div>
                                     <div className={styles.date}>
                                         {milestone.status === 'PAID' && milestone.paidDate
@@ -76,7 +90,7 @@ const PaymentMilestoneTimeline = ({ milestones = [], onAction, currentMilestoneI
                                         {config.label}
                                     </span>
 
-                                    {milestone.actionLabel && onAction && (
+                                    {milestone.actionLabel && onAction && canShowAction(milestone) && (
                                         <button
                                             className={styles.actionButton}
                                             onClick={() => onAction(milestone.id)}
@@ -117,7 +131,7 @@ const PaymentMilestoneTimeline = ({ milestones = [], onAction, currentMilestoneI
                                 </div>
 
                                 <div className={styles.mobileAmount}>
-                                    {milestone.currency} {milestone.amount.toLocaleString()}
+                                    {milestone.currency} {milestone.amount?.toLocaleString() || '0'}
                                 </div>
 
                                 {milestone.description && (
@@ -137,7 +151,7 @@ const PaymentMilestoneTimeline = ({ milestones = [], onAction, currentMilestoneI
                                         </span>
                                     </div>
 
-                                    {milestone.actionLabel && onAction && (
+                                    {milestone.actionLabel && onAction && canShowAction(milestone) && (
                                         <button
                                             className={styles.actionButton}
                                             onClick={() => onAction(milestone.id)}

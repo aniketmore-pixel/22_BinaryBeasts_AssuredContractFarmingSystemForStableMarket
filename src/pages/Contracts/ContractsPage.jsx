@@ -121,14 +121,50 @@ const ContractsPage = ({ role = 'farmer' }) => {
                                 </div>
 
                                 <div className={styles.actionsGroup}>
-                                    {(contract.status === 'pending' || contract.status === 'negotiating') && (
+                                    {/* Buyer Actions */}
+                                    {role === 'buyer' && contract.status === 'pending' && (
+                                        <>
+                                            <button
+                                                className={styles.acceptButton}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleAcceptOffer(contract.id);
+                                                }}
+                                            >
+                                                Accept Application
+                                            </button>
+                                            <button
+                                                className={styles.negotiateButton}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleNegotiateClick(contract);
+                                                }}
+                                            >
+                                                Negotiate
+                                            </button>
+                                        </>
+                                    )}
+
+                                    {/* Farmer Actions */}
+                                    {role === 'farmer' && (contract.status === 'pending' || contract.status === 'negotiating') && (
                                         <button
                                             className={styles.negotiateButton}
-                                            onClick={() => handleNegotiateClick(contract)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleNegotiateClick(contract);
+                                            }}
                                         >
-                                            Negotiate
+                                            {contract.status === 'pending' ? 'Negotiate / View' : 'Respond to Offer'}
                                         </button>
                                     )}
+
+                                    {/* Common Actions */}
+                                    {contract.status === 'active' && (
+                                        <div className={styles.activeTag}>
+                                            In Progress
+                                        </div>
+                                    )}
+
                                     <button className={styles.actionButton}>
                                         <ChevronRight size={20} />
                                     </button>

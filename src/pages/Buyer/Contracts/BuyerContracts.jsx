@@ -16,7 +16,8 @@ const BuyerContracts = () => {
 
     const handleApprove = (id) => {
         if (window.confirm('Are you sure you want to approve this contract?')) {
-            updateContractStatus(id, 'active');
+            // Use acceptOffer to trigger Milestone Generation
+            acceptOffer(id);
         }
     };
 
@@ -93,15 +94,15 @@ const BuyerContracts = () => {
 
                             <div className={styles.detailRow}>
                                 <span className={styles.detailLabel}>Contract ID</span>
-                                <span className={styles.detailValue}>#{contract.id.split('-').pop()}</span>
+                                <span className={styles.detailValue}>#{contract.id?.toString().split('-').pop() || 'N/A'}</span>
                             </div>
                             <div className={styles.detailRow}>
                                 <span className={styles.detailLabel}>Total Value</span>
-                                <span className={styles.detailValue}>₹{contract.value.toLocaleString()}</span>
+                                <span className={styles.detailValue}>₹{contract.value?.toLocaleString() || '0'}</span>
                             </div>
                             <div className={styles.detailRow}>
                                 <span className={styles.detailLabel}>Start Date</span>
-                                <span className={styles.detailValue}>{contract.startDate}</span>
+                                <span className={styles.detailValue}>{contract.startDate || 'TBD'}</span>
                             </div>
 
                             {(contract.status === 'pending' || contract.status === 'negotiating') && (

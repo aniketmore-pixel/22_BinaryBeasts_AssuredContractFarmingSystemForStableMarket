@@ -31,6 +31,7 @@ const Sidebar = ({ role }) => {
         { name: 'Find Offers', path: '/farmer/offers', icon: Search },
         { name: 'Payments', path: '/farmer/payments', icon: Wallet },
         { name: 'Dispute Center', path: '/farmer/disputes', icon: AlertCircle },
+        { name: 'Market Trends', path: '/farmer/market-trends', icon: TrendingUp },
         { name: 'Profile', path: '/farmer/profile', icon: User },
     ];
 

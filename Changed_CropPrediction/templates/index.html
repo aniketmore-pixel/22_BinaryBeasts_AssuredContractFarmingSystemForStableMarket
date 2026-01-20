@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Krishi Setu</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    :root {
+      --green-dark: #1b5e20;
+      --green-main: #2e7d32;
+      --green-light: #e8f5e9;
+      --text-dark: #263238;
+    }
+
+    body {
+      background: linear-gradient(180deg, #f1f8e9, #ffffff);
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-dark);
+    }
+
+    .main {
+      padding: 30px 60px 80px;
+    }
+
+    .brand-header {
+      background: linear-gradient(90deg, var(--green-dark), var(--green-main));
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 1.9rem;
+    }
+
+    .section-title {
+      background: var(--green-light);
+      color: var(--green-dark);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    table.striped tbody tr:nth-child(odd) {
+      background-color: #f9fdf9;
+    }
+
+    table.striped tbody tr:hover {
+      background-color: var(--green-light);
+    }
+
+    th {
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 14px 10px;
+    }
+
+    .card, .card-panel {
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    /* ===== STAR PREDICTION ===== */
+    .prediction-card {
+      background: linear-gradient(180deg, #ffffff, #f1f8e9);
+      overflow: hidden;
+    }
+
+    #month {
+      text-align: center;
+      font-weight: 600;
+      color: var(--green-main);
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    #pos-change {
+      color: var(--green-main);
+      font-weight: 600;
+    }
+
+    #neg-change {
+      color: #c62828;
+      font-weight: 600;
+    }
+
+    /* ===== TRANSITION EFFECT ===== */
+    .prediction-animate {
+      animation: highlightFade 0.8s ease;
+    }
+
+    @keyframes highlightFade {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+        box-shadow: 0 0 0 rgba(46,125,50,0);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(46,125,50,0.35);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        box-shadow: 0 0 0 rgba(46,125,50,0);
+      }
+    }
+
+    /* ===== COMMODITY GRID ===== */
+    .commodity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .commodity-card {
+      border-left: 6px solid var(--green-main);
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .commodity-card:hover {
+      background: var(--green-light);
+      transform: translateY(-4px);
+    }
+
+    .commodity-card .card-content {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .commodity-card img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .commodity-card .card-title {
+      font-weight: 600;
+      color: var(--green-dark);
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 600px) {
+      .main {
+        padding: 20px;
+      }
+      .commodity-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+    }
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body class="main">
+
+  <div class="brand-header center">
+    <div class="brand-logo">
+      <span>KrishuSetu</span>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col s9">
+      <div class="card-panel">
+        <h4 class="section-title">Top Gainers (Current Trends)</h4>
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Price (₹/Qtl)</th>
+              <th>Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in context['top5'] %}
+            <tr>
+              <td>{{item[0]}}</td>
+              <td>₹{{item[1]}}</td>
+              <td class="valign-wrapper">{{item[2]}}%
+                <img src="../static/gain-icon.png" height="22">
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <h4 class="section-title">Top Losers (Current Trends)</h4>
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Price (₹/Qtl)</th>
+              <th>Change</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in context['bottom5'] %}
+            <tr>
+              <td>{{item[0]}}</td>
+              <td>₹{{item[1]}}</td>
+              <td class="valign-wrapper">{{item[2]}}%
+                <img src="../static/loss-icon.png" height="22">
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAR PREDICTION -->
+    <div class="col s3">
+      <div class="card prediction-card">
+        <div class="card-content prediction-content">
+          <h6 class="center">Star Commodity Prediction</h6>
+          <div id="month"></div>
+
+          <table>
+            <tr>
+              <td><h5 id="crop1"></h5></td>
+              <td class="right">
+                <h4 id="price1"></h4>
+                <span id="pos-change"></span>
+              </td>
+            </tr>
+            <tr>
+              <td><h5 id="crop2"></h5></td>
+              <td class="right">
+                <h4 id="price2"></h4>
+                <span id="neg-change"></span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h5 class="section-title">Explore by Commodity</h5>
+
+  <div class="commodity-grid">
+    {% set commodities = [
+  ('paddy','Paddy','rice-bowl'),
+  ('wheat','Wheat','wheat'),
+  ('barley','Barley','barley'),
+  ('soyabean','Soyabean','soy'),
+  ('cotton','Cotton','cotton'),
+  ('copra','Coconut','coconut'),
+  ('groundnut','Groundnut','peanuts'),
+  ('rape','Mustard Seed','mustard'),
+  ('sesamum','Gingelly (Sesamum)','sesame'),
+  ('gram','Gram','paper-bag-with-seeds'),
+  ('sugarcane','Sugarcane','bamboo'),
+  ('arhar','Arhar','paper-bag-with-seeds'),
+  ('ragi','Ragi','wheat'),
+  ('maize','Maize','corn'),
+  ('moong','Moong','paper-bag-with-seeds'),
+  ('masoor','Masoor','paper-bag-with-seeds'),
+  ('urad','Urad','paper-bag-with-seeds'),
+  ('jute','Raw Jute','potato'),
+  ('niger','Niger Seed','paper-bag-with-seeds'),
+  ('safflower','Kardi Seed','paper-bag-with-seeds'),
+  ('sunflower','Sunflower','potato'),
+  ('jowar','Jowar','potato'),
+  ('bajra','Bajra','potato')
+] %}
+
+
+    {% for c in commodities %}
+    <a href="http://localhost:5000/commodity/{{c[0]}}">
+      <div class="card commodity-card">
+        <div class="card-content">
+          <img src="https://img.icons8.com/color/48/000000/{{c[2]}}.png">
+          <span class="card-title">{{c[1]}}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- STAR COMMODITY LOOP SCRIPT WITH ANIMATION -->
+  <script>
+    const data = {{ context.sixmonths | tojson }};
+    let index = 0;
+
+    function updatePrediction() {
+      const d = data[index];
+      const container = document.querySelector('.prediction-content');
+
+      container.classList.remove('prediction-animate');
+      void container.offsetWidth; // force reflow
+      container.classList.add('prediction-animate');
+
+      $('#month').text(d[0]);
+      $('#crop1').text(d[1]);
+      $('#price1').text('₹' + d[2]);
+      $('#pos-change').text(d[3] + '%');
+
+      $('#crop2').text(d[4]);
+      $('#price2').text('₹' + d[5]);
+      $('#neg-change').text(d[6] + '%');
+
+      index = (index + 1) % data.length;
+    }
+
+    updatePrediction();
+    setInterval(updatePrediction, 4000);
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--text-primary);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.header p {
+    color: var(--text-secondary);
+}
+
+.cropSelect {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+/* Main Layout Grid */
+.mainGrid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    align-items: start;
+}
+
+.trendsColumn {
+    min-width: 0;
+}
+
+/* Movers Grid */
+.moversGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.moversCard {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.cardHeader h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.trendUp {
+    color: #16a34a;
+}
+
+.trendDown {
+    color: #ef4444;
+}
+
+.moversList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.moverItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.moverName {
+    font-weight: 500;
+    text-transform: capitalize;
+    flex: 1;
+}
+
+.moverPrice {
+    font-family: monospace;
+    font-weight: 600;
+    margin-right: 1.5rem;
+}
+
+.moverChangePositive {
+    color: #16a34a;
+    background: #dcfce7;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.moverChangeNegative {
+    color: #ef4444;
+    background: #fee2e2;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Chart Section */
+.chartSection {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+.chartHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.currentStats {
+    display: flex;
+    gap: 2rem;
+}
+
+.statBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.statBox label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.statBox span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: monospace;
+}
+
+.statBox small {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+.highVal {
+    color: #16a34a;
+}
+
+.lowVal {
+    color: #ef4444;
+}
+
+.chartContainer {
+    margin-bottom: 2rem;
+}
+
+.insightBox {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.insightBox h4 {
+    color: #0284c7;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.insightBox p {
+    color: #0c4a6e;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Loading/Error */
+.loadingContainer,
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    text-align: center;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.retryBtn {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.hint {
+    color: var(--text-muted);
+    font-family: monospace;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .mainGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .cropSelect {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .moversGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .chartHeader {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .currentStats {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    .statBox {
+        align-items: center;
+        /* Center align on mobile for better look */
+        flex: 1;
+    }
+
+    .statBox span {
+        font-size: 1.2rem;
+    }
+}
