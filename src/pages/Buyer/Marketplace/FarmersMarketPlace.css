@@ -1,0 +1,54 @@
+.marketplace {
+  padding: 1.5rem;
+  background: #f8fafc; /* unchanged */
+}
+
+.marketplace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.marketplace-header input {
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  width: 240px;
+}
+
+.sort-btn {
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.farmers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .marketplace-header {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: stretch;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .marketplace-header input {
+    width: 100%;
+  }
+}

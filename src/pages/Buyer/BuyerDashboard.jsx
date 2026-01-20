@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -11,6 +13,7 @@ import {
     ArrowRight,
     Plus
 } from 'lucide-react';
+
 import './Buyer.css';
 
 const supplyData = [
@@ -37,6 +40,8 @@ const itemVariants = {
 };
 
 const BuyerDashboard = () => {
+    const navigate = useNavigate();
+
     return (
         <motion.div
             className="dashboard-container"
@@ -49,8 +54,21 @@ const BuyerDashboard = () => {
                     <h1>Corporate Portal 🏢</h1>
                     <p>Manage your procurement and contracts efficiently.</p>
                 </motion.div>
+
                 <motion.div variants={itemVariants}>
-                    <Button className="create-btn">
+                    <Button
+                        className="create-btn"
+                        onClick={() => navigate("/buyer/fertilizer")}
+                    >
+                        <Plus size={18} /> Farm Guidance & Help
+                    </Button>
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                    <Button 
+                    className="create-btn"
+                    onClick={() => navigate("/buyer/create-offer")}
+                    >
                         <Plus size={20} /> Create New Offer
                     </Button>
                 </motion.div>

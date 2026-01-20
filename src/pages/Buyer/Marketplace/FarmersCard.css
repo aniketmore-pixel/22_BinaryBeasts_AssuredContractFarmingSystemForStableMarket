@@ -1,0 +1,61 @@
+.farmer-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.farmer-card img {
+  width: 82px;
+  height: 82px;
+  border-radius: 40%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+.farmer-card h3 {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.crops {
+  font-size: 1rem;
+  color: #059669;
+}
+
+.location {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  color: #0e0e0f;
+
+}
+
+.phone {
+  letter-spacing: 0.5px;
+}
+
+.score {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.profile-btn {
+  margin-top: 0.7rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #16a34a;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}

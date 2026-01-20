@@ -190,6 +190,58 @@ router.post("/contracts/:contractId/resolve/buyer", async (req, res) => {
     }
   });
   
-  
+  /* =========================
+   Update Delivery Tracking
+   POST /api/contracts/:contractId/update-delivery
+========================= */
+router.post("/contracts/:contractId/update-delivery", async (req, res) => {
+  const { contractId } = req.params;
+  const { delivery_tracking } = req.body;
+
+  // Validate input
+  const allowedStatuses = ["LAND", "SOWING", "IRRIGATION", "GROWTH", "HARVEST", "PACKING"];
+  if (!allowedStatuses.includes(delivery_tracking)) {
+    return res.status(400).json({ error: "Invalid delivery tracking status" });
+  }
+
+  try {
+    const contract = await Contract.findOne({ contract_id: contractId });
+    if (!contract) {
+      return res.status(404).json({ error: "Contract not found" });
+    }
+
+    contract.delivery_tracking = delivery_tracking;
+    await contract.save();
+
+    res.json({
+      message: `Delivery tracking updated to '${delivery_tracking}'`,
+      contract,
+    });
+  } catch (err) {
+    console.error("❌ Failed to update delivery tracking:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/contracts/:contractId/current-delivery-status", async (req, res) => {
+  const { contractId } = req.params;
+
+  try {
+    const contract = await Contract.findOne({ contract_id: contractId });
+    if (!contract) {
+      return res.status(404).json({ error: "Contract not found" });
+    }
+
+    res.json({
+      contract_id: contract.contract_id,
+      delivery_tracking: contract.delivery_tracking,
+    });
+  } catch (err) {
+    console.error("❌ Failed to fetch delivery tracking status:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 
 export default router;

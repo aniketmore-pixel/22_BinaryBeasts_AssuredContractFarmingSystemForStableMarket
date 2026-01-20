@@ -251,13 +251,24 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MapPin, Calendar, Scale, ShieldCheck, ArrowLeft } from "lucide-react";
 import axios from "axios";
+import SignatureCanvas from "react-signature-canvas";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { useRef } from "react";
+
 
 const OfferDetails = () => {
     const { offerId } = useParams();
     const navigate = useNavigate();
 
+    
+    const [showContractModal, setShowContractModal] = useState(false);
     const [offer, setOffer] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const sigCanvasRef = useRef(null);
+    const contractRef = useRef(null);
+
     // Note: These state variables were present but not fully utilized in the UI provided
     const [counterPrice, setCounterPrice] = useState("");
     const [counterQty, setCounterQty] = useState("");
@@ -614,7 +625,7 @@ if (offer.validTill && !isNaN(Date.parse(offer.validTill))) {
                             fontWeight: "600",
                             boxShadow: "0 4px 12px rgba(0,0,0,0.18)"
                         }}
-                        onClick={handleAccept}
+                        onClick={() => setShowContractModal(true)}
                     >
                         Accept
                     </button>
@@ -642,6 +653,112 @@ if (offer.validTill && !isNaN(Date.parse(offer.validTill))) {
 
                 </div>
             </div>
+
+            {showContractModal && (
+  <div style={overlayStyle}>
+    <div style={modalStyle}>
+
+      {/* DOCUMENT */}
+      <div ref={contractRef} style={documentStyle}>
+        <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
+          Crop Supply Agreement
+        </h2>
+
+        <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
+
+        <p style={paragraphStyle}>
+          This agreement is made between <strong>{offer.buyer?.name}</strong> (Buyer)
+          and the undersigned Farmer for the supply of agricultural produce under
+          the terms stated below.
+        </p>
+
+        <table style={tableStyle}>
+          <tbody>
+            <tr><td>Crop</td><td>{offer.crop}</td></tr>
+            <tr><td>Quantity</td><td>{offer.quantity} Quintals</td></tr>
+            <tr><td>Price</td><td>₹{offer.price} / Quintal</td></tr>
+            <tr><td>Location</td><td>{offer.location}</td></tr>
+            <tr><td>Duration</td><td>{offer.duration}</td></tr>
+            <tr><td>Valid Till</td><td>{offer.validTill}</td></tr>
+          </tbody>
+        </table>
+
+        <p style={paragraphStyle}>
+          The farmer agrees to deliver the crop in good condition and on the agreed
+          timeline. Payment shall be made as per mutually agreed terms.
+        </p>
+
+        <p style={{ marginTop: "1.5rem" }}>
+          <strong>Farmer Signature:</strong>
+        </p>
+
+        {/* SIGNATURE PAD */}
+        <div style={signatureBoxStyle}>
+          <SignatureCanvas
+            ref={sigCanvasRef}
+            penColor="black"
+            canvasProps={{
+              width: 500,
+              height: 150,
+              style: { background: "#fff" }
+            }}
+          />
+        </div>
+
+        <p style={{ marginTop: "0.5rem", fontSize: "0.85rem" }}>
+          Sign above using mouse or touch
+        </p>
+      </div>
+
+      {/* ACTIONS */}
+      <div style={{ display: "flex", gap: "1rem", marginTop: "1.5rem" }}>
+        <button
+          style={cancelBtnStyle}
+          onClick={() => {
+            sigCanvasRef.current?.clear();
+            setShowContractModal(false);
+          }}
+        >
+          Cancel
+        </button>
+
+        <button
+          style={cancelBtnStyle}
+          onClick={() => sigCanvasRef.current.clear()}
+        >
+          Clear Signature
+        </button>
+
+        <button
+          style={signBtnStyle}
+          onClick={async () => {
+            if (sigCanvasRef.current.isEmpty()) {
+              alert("Please sign before accepting");
+              return;
+            }
+
+            // Generate PDF
+            const canvas = await html2canvas(contractRef.current, { scale: 2 });
+            const imgData = canvas.toDataURL("image/png");
+
+            const pdf = new jsPDF("p", "mm", "a4");
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+            pdf.addImage(imgData, "PNG", 0, 10, pdfWidth, pdfHeight);
+            pdf.save("Crop-Contract.pdf");
+
+            setShowContractModal(false);
+            handleAccept(); // 🔥 your original accept logic
+          }}
+        >
+          Sign, Download & Accept
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
         </div>
     );
 };
@@ -660,5 +777,81 @@ const Detail = ({ icon, label, value }) => (
         <p style={{ margin: "0.2rem 0 0", fontWeight: "600" }}>{value}</p>
     </div>
 );
+
+const documentStyle = {
+    background: "#fff",
+    padding: "2rem",
+    borderRadius: "8px",
+    border: "1px solid #e5e7eb",
+    fontFamily: "serif",
+    color: "#111827"
+  };
+  
+  const paragraphStyle = {
+    margin: "0.75rem 0",
+    lineHeight: "1.6",
+    fontSize: "0.95rem"
+  };
+  
+  const tableStyle = {
+    width: "100%",
+    borderCollapse: "collapse",
+    margin: "1rem 0"
+  };
+  
+  const signatureBoxStyle = {
+    border: "1px solid #000",
+    marginTop: "0.5rem",
+    width: "500px"
+  };
+
+  // ==========================================
+// 👇 PASTE THIS AT THE BOTTOM OF YOUR FILE
+// ==========================================
+
+const overlayStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  };
+  
+  const modalStyle = {
+    backgroundColor: "#fff",
+    padding: "20px",
+    borderRadius: "8px",
+    width: "90%",
+    maxWidth: "600px",
+    maxHeight: "90vh",
+    overflowY: "auto",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  };
+  
+  const cancelBtnStyle = {
+    padding: "0.5rem 1rem",
+    backgroundColor: "#ef4444", // Red
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontWeight: "600",
+  };
+  
+  const signBtnStyle = {
+    padding: "0.5rem 1rem",
+    backgroundColor: "#16a34a", // Green
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontWeight: "600",
+  };
+  
 
 export default OfferDetails;

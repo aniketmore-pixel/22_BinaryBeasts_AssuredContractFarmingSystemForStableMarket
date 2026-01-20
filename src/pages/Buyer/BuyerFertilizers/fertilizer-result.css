@@ -1,0 +1,83 @@
+/* ================================
+   Fertilizer Result Page Styles
+   100% PAGE-SCOPED (NO LEAKAGE)
+   ================================ */
+
+   .fertilizer-result-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0fdf4, #ecfeff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  
+  /* Card */
+  .fertilizer-result-page .result-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 850px;
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+  }
+  
+  /* Title */
+  .fertilizer-result-page .page-title {
+    text-align: center;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #166534;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Result box */
+  .fertilizer-result-page .result-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  
+  /* Result text */
+  .fertilizer-result-page .result-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #374151;
+  }
+  
+  /* HTML inside recommendation */
+  .fertilizer-result-page .result-text p {
+    margin-bottom: 1rem;
+  }
+  
+  .fertilizer-result-page .result-text strong {
+    color: #065f46;
+    font-weight: 600;
+  }
+  
+  .fertilizer-result-page .result-text ul {
+    margin: 0.75rem 0 0.75rem 1.2rem;
+  }
+  
+  .fertilizer-result-page .result-text li {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 640px) {
+    .fertilizer-result-page {
+      padding: 1rem;
+    }
+  
+    .fertilizer-result-page .result-card {
+      padding: 1.5rem;
+    }
+  
+    .fertilizer-result-page .page-title {
+      font-size: 1.5rem;
+    }
+  }
+  

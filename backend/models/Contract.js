@@ -49,6 +49,13 @@ const ContractSchema = new mongoose.Schema(
 
     notes: String,
 
+    /* ===== Delivery tracking ===== */
+    delivery_tracking: {
+      type: String,
+      enum: ["LAND", "SOWING", "IRRIGATION", "GROWTH", "HARVEST", "PACKING"],
+      default: "LAND"
+    },
+
     /* ===== Dispute notes ===== */
     farmer_dispute_note: { type: String, default: "" },
     buyer_dispute_note: { type: String, default: "" }

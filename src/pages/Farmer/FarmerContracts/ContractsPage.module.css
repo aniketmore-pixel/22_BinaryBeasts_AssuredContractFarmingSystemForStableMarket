@@ -1,0 +1,71 @@
+/* Delivery Tracker Container */
+.deliveryTracking {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5rem 2rem 0 2rem; /* added horizontal margin */
+    position: relative;
+}
+
+/* The line behind the dots */
+.deliveryTracking::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 2rem;   /* match the container margin */
+    right: 2rem;  /* match the container margin */
+    height: 4px;
+    background-color: #d1fae5; /* light green */
+    z-index: 1;
+    transform: translateY(-50%);
+    border-radius: 2px;
+}
+
+/* Each step container */
+.deliveryStep {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Circle/Dot for each step */
+.stepCircle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #d1fae5; /* default light green */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+/* Active/Completed step */
+.activeStep .stepCircle {
+    background-color: #16a34a; /* green */
+}
+
+/* Step label */
+.stepLabel {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: #374151;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Icon inside dot */
+.stepIcon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Optional: hover effect */
+.deliveryStep:hover .stepCircle {
+    background-color: #059669; /* darker green */
+}

@@ -1,0 +1,113 @@
+/* PAGE LAYOUT — scoped */
+.center-form-page .page-wrapper {
+  min-height: 100vh;
+  background: #f5f7fb;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  padding: 100px 40px;
+}
+
+/* LEFT CARD */
+.center-form-page .form-card {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* RIGHT CARD */
+.center-form-page .info-card {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.center-form-page .info-card h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.center-form-page .info-card p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.center-form-page .info-card ul {
+  padding-left: 18px;
+  margin-bottom: 14px;
+}
+
+.center-form-page .info-card li {
+  margin-bottom: 8px;
+  color: #444;
+}
+
+/* TITLES */
+.center-form-page .page-title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.center-form-page .page-subtitle {
+  text-align: center;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+/* FORM */
+.center-form-page .form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.center-form-page .form-group label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.center-form-page .form-group input,
+.center-form-page .form-group select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+  outline: none;
+}
+
+.center-form-page .form-group input:focus,
+.center-form-page .form-group select:focus {
+  border-color: #16a34a;
+}
+
+/* BUTTON */
+.center-form-page .primary-btn {
+  margin-top: 16px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.center-form-page .primary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .center-form-page .page-wrapper {
+    grid-template-columns: 1fr;
+    padding: 80px 20px;
+  }
+}

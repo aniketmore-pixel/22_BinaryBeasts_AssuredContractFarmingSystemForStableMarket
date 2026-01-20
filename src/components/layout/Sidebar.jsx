@@ -11,7 +11,8 @@ import {
     ShieldCheck,
     TrendingUp,
     Clock,
-    Calendar
+    Calendar,
+    Truck
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -31,18 +32,22 @@ const Sidebar = ({ role }) => {
         { name: 'Find Offers', path: '/farmer/offers', icon: Search },
         { name: 'Payments', path: '/farmer/payments', icon: Wallet },
         { name: 'Dispute Center', path: '/farmer/disputes', icon: AlertCircle },
+        { name: 'Delivery Tracking', path: '/farmer/delivery-tracking', icon: Truck },
         { name: 'Market Trends', path: '/farmer/market-trends', icon: TrendingUp },
         { name: 'Profile', path: '/farmer/profile', icon: User },
     ];
 
     const buyerLinks = [
         { name: 'Dashboard', path: '/buyer', icon: LayoutDashboard },
+        { name: "Marketplace", path: "/buyer/marketplace", icon: User },
         { name: 'Calendar', path: '/buyer/calendar', icon: Calendar },
         { name: 'Create Offer', path: '/buyer/create-offer', icon: FileText },
         { name: 'Manage Contracts', path: '/buyer/contracts', icon: ShieldCheck },
         { name: 'Payments', path: '/buyer/payments', icon: Wallet },
         { name: 'Dispute Center', path: '/buyer/disputes', icon: AlertCircle },
-        { name: 'Market Insights', path: '/buyer/insights', icon: TrendingUp },
+        // { name: 'Market Insights', path: '/buyer/insights', icon: TrendingUp },
+        { name: 'Delivery Tracking', path: '/buyer/delivery-tracking', icon: Truck },
+        { name: "Buyer Profile ", path: "/buyer/profile", icon: User },
     ];
 
     const adminLinks = [

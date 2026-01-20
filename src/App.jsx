@@ -6,7 +6,9 @@ import SmoothScroll from "./components/common/SmoothScroll";
 import OfferDetails from "./pages/Offers/OfferDetails";
 import CounterOffer from "./pages/counterOffer";
 import BuyerContracts from "./pages/Buyer/Contracts/BuyerContracts";
-
+import Fertilizers from "./pages/Buyer/BuyerFertilizers/Fertilizers";
+import ProfilePage from "./pages/Profile/ProfilePage";
+import MarketPlace from "./pages/Buyer/Marketplace/MarketPlace"
 
 // Components
 import Layout from "./components/layout/Layout";
@@ -33,6 +35,11 @@ import ContractsPage from "./pages/Contracts/ContractsPage";
 import MarketTrendsPage from "./pages/Market/MarketTrendsPage";
 import FarmerDisputes from "./pages/Farmer/FarmerDisputes";
 import DisputeListView from "./pages/Disputes/DisputeListView";
+import BuyerProfile from "./pages/Buyer/Profile/BuyerProfile";
+import FertilizerResult from "./pages/Buyer/BuyerFertilizers/FertilizerResult";
+import GoogleTranslate from "./components/GoogleTranslate";
+import FarmerContracts from "./pages/Farmer/FarmerContracts/FarmerContracts";
+import DeliveryTracking from "./pages/Buyer/DeliveryTracking/DeliveryTracking";
 
 
 // Simple internal card used for stubs
@@ -124,7 +131,8 @@ const AnimatedRoutes = () => {
           <Route path="offers" element={<FindOffers />} />
           <Route path="payments" element={<PaymentsPage role="farmer" />} />
           <Route path="calendar" element={<ContractCalendar role="farmer" />} />
-          <Route path="profile" element={<Card title="My Profile">KYC details coming soon...</Card>} />
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="delivery-tracking" element={<FarmerContracts />} />
           <Route path="market-trends" element={<MarketTrendsPage />} />
           
 
@@ -141,13 +149,17 @@ const AnimatedRoutes = () => {
           </ProtectedRoute>
         }>
           <Route path="contracts" element={<BuyerContracts />} />
+          <Route path="marketplace" element={<MarketPlace />} />
           <Route index element={<BuyerDashboard />} />
           <Route path="create-offer" element={<CreateOffer />} />
           <Route path="contracts" element={<BuyerContracts />} />
+          <Route path="fertilizer-result" element={<FertilizerResult />} />
+          <Route path="fertilizer" element={<Fertilizers />} />
           <Route path="payments" element={<PaymentsPage role="buyer" />} />
           <Route path="calendar" element={<ContractCalendar role="buyer" />} />
-          <Route path="profile" element={<Card title="Company Profile">Verification status...</Card>} />
+          <Route path="profile" element= {<BuyerProfile role="buyer" />}/>
           <Route path="disputes" element={<DisputeListView role="buyer" />} />
+          <Route path="delivery-tracking" element={<DeliveryTracking role="buyer" />} />
         </Route>
 
         {/* Admin Routes */}
@@ -174,6 +186,17 @@ function App() {
       <MarketplaceProvider>
         <SmoothScroll>
           <Router>
+          <div
+              style={{
+                position: "fixed",
+                top: "10px",
+                right: "16px",
+                zIndex: 9999,
+              }}
+            >
+              <GoogleTranslate />
+            </div>
+
             <AnimatedRoutes />
           </Router>
         </SmoothScroll>
