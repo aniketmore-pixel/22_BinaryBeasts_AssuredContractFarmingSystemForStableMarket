@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { Camera } from "lucide-react";
 import "./BuyerProfile.css";
 
-const buyerTypes = ["Hotel", "Supplier", "Retailer", "Exporter", "Wholesaler"];
+const BUYER_TYPES = [
+  "HOTEL",
+  "PROCESSOR",
+  "WHOLESALER",
+  "RETAILER",
+  "EXPORTER",
+  "COOPERATIVE",
+  "GOVERNMENT",
+];
 
 function BuyerProfile() {
   const [loading, setLoading] = useState(true);
@@ -10,45 +18,57 @@ function BuyerProfile() {
   const [submitted, setSubmitted] = useState(false);
 
   const [buyer, setBuyer] = useState({
+    userId: "",
     name: "",
     email: "",
-    mobile: "",
-    buyerType: "",
-    organization: "",
-    address: "",
+    phone: "",
+    buyer_type: "",
+    organization_name: "",
+    registered_address: "",
     photo: null,
   });
 
-  /* ---------------- LOAD USER (MOCK / FROM STORAGE) ---------------- */
-
+  /* =========================
+     LOAD USER FROM LOCALSTORAGE → BACKEND
+  ========================= */
   useEffect(() => {
-    loadBuyer();
-  }, []);
+    const initProfile = async () => {
+      const userStr = localStorage.getItem("user");
+      if (!userStr) {
+        setError("User not logged in");
+        return;
+      }
 
-  const loadBuyer = () => {
-    /**
-     * Replace this later with:
-     * - auth context
-     * - JWT decode
-     * - backend API
-     */
+      const user = JSON.parse(userStr);
+      console.log(user.id);
 
-    const mockUser = {
-      name: "John Singh",
-      email: "johnsingh@gmail.com",
-      mobile: "+91 98765 43210",
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/profile/user-core/${user.id}`
+        );
+        const data = await res.json();
+
+        setBuyer((prev) => ({
+          ...prev,
+          userId: user.id,
+          name: data.name,
+          email: data.email,
+          phone: data.phone || "",
+        }));
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load user profile");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    setBuyer((prev) => ({
-      ...prev,
-      ...mockUser,
-    }));
+    initProfile();
+  }, []);
 
-    setLoading(false);
-  };
-
-  /* ---------------- HANDLERS ---------------- */
-
+  /* =========================
+     HANDLERS
+  ========================= */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setBuyer((prev) => ({ ...prev, [name]: value }));
@@ -63,48 +83,45 @@ function BuyerProfile() {
     }
   };
 
-  /* ---------------- VALIDATION ---------------- */
-
-  const validateForm = () => {
-    if (
-      !buyer.buyerType ||
-      !buyer.organization ||
-      !buyer.address ||
-      !buyer.photo
-    ) {
-      return "Please fill all required fields";
-    }
-    return "";
-  };
-
-  /* ---------------- SAVE PROFILE ---------------- */
-
+  /* =========================
+     SAVE BUYER PROFILE
+  ========================= */
   const saveProfile = async (e) => {
     e.preventDefault();
 
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
+    if (
+      !buyer.buyer_type ||
+      !buyer.organization_name ||
+      !buyer.registered_address
+    ) {
+      setError("Please fill all required fields");
       return;
     }
 
-    const payload = {
-      name: buyer.name,
-      email: buyer.email,
-      mobile: buyer.mobile,
-      buyer_type: buyer.buyerType,
-      organization_name: buyer.organization,
-      registered_address: buyer.address,
-    };
-
-    console.log("Buyer Profile Payload:", payload);
-
     try {
-      // TEMP: simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const res = await fetch(
+        "http://localhost:5000/api/buyer-profile/onboard-create",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: buyer.userId,
+            buyer_type: buyer.buyer_type,
+            organization_name: buyer.organization_name,
+            registered_address: buyer.registered_address,
+          }),
+        }
+      );
 
-      setError("");
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Failed to save profile");
+        return;
+      }
+
       setSubmitted(true);
+      setError("");
     } catch (err) {
       console.error(err);
       setError("Server error");
@@ -112,8 +129,6 @@ function BuyerProfile() {
   };
 
   if (loading) return <p>Loading profile...</p>;
-
-  /* ---------------- UI ---------------- */
 
   return (
     <div className="profile-container">
@@ -133,24 +148,24 @@ function BuyerProfile() {
 
           <label className="upload-btn">
             <Camera size={14} />
-            Upload Photo *
+            Upload Photo
             <input type="file" hidden onChange={handlePhotoUpload} />
           </label>
         </div>
 
         {/* FORM */}
         <div className="profile-form">
-          <input value={buyer.name} disabled />
-          <input value={buyer.email} disabled />
-          <input value={buyer.mobile} disabled />
+        <input value={buyer.name} readOnly className="readonly-input" />
+        <input value={buyer.email} readOnly className="readonly-input" />
+        <input value={buyer.phone} readOnly className="readonly-input" />
 
           <select
-            name="buyerType"
-            value={buyer.buyerType}
+            name="buyer_type"
+            value={buyer.buyer_type}
             onChange={handleChange}
           >
             <option value="">Select Buyer Type *</option>
-            {buyerTypes.map((type) => (
+            {BUYER_TYPES.map((type) => (
               <option key={type} value={type}>
                 {type}
               </option>
@@ -158,15 +173,15 @@ function BuyerProfile() {
           </select>
 
           <input
-            name="organization"
-            value={buyer.organization}
+            name="organization_name"
+            value={buyer.organization_name}
             onChange={handleChange}
             placeholder="Organization Name *"
           />
 
           <textarea
-            name="address"
-            value={buyer.address}
+            name="registered_address"
+            value={buyer.registered_address}
             onChange={handleChange}
             placeholder="Registered Office Address *"
             rows={3}

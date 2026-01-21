@@ -40,6 +40,9 @@ import FertilizerResult from "./pages/Buyer/BuyerFertilizers/FertilizerResult";
 import GoogleTranslate from "./components/GoogleTranslate";
 import FarmerContracts from "./pages/Farmer/FarmerContracts/FarmerContracts";
 import DeliveryTracking from "./pages/Buyer/DeliveryTracking/DeliveryTracking";
+import FarmerVideoPlatform from "./pages/Farmer/FarmerVideoPlat/FarmerVideoPlatform";
+import ContractAuditPage from "./pages/ContractAuditPage/ContractAuditPage";
+import BuyerContractAuditPage from "./pages/Buyer/BuyerContractAuditPage/BuyerContractAuditPage";
 
 
 // Simple internal card used for stubs
@@ -134,6 +137,8 @@ const AnimatedRoutes = () => {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="delivery-tracking" element={<FarmerContracts />} />
           <Route path="market-trends" element={<MarketTrendsPage />} />
+          <Route path="courses" element={<FarmerVideoPlatform />} />
+          <Route path="contract-audit" element={<ContractAuditPage />} />
           
 
           {/* Dispute Routes */}
@@ -153,6 +158,7 @@ const AnimatedRoutes = () => {
           <Route index element={<BuyerDashboard />} />
           <Route path="create-offer" element={<CreateOffer />} />
           <Route path="contracts" element={<BuyerContracts />} />
+          <Route path="contract-audit" element={<BuyerContractAuditPage />} />
           <Route path="fertilizer-result" element={<FertilizerResult />} />
           <Route path="fertilizer" element={<Fertilizers />} />
           <Route path="payments" element={<PaymentsPage role="buyer" />} />

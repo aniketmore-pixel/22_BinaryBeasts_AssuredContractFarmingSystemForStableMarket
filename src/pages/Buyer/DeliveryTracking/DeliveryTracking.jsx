@@ -76,37 +76,94 @@ const DeliveryTracking = () => {
   /* =========================
      Fetch delivery tracking
   ========================= */
-  useEffect(() => {
-    if (inProgressContracts.length === 0) return;
+  // useEffect(() => {
+  //   if (inProgressContracts.length === 0) return;
 
-    const fetchDeliveryStatuses = async () => {
-      try {
-        const results = await Promise.all(
-          inProgressContracts.map(async (contract) => {
-            const res = await fetch(
-              `http://localhost:5000/api/contracts/${contract.contract_id}/current-delivery-status`
-            );
-            const data = await res.json();
-            return {
-              contractId: contract.contract_id,
-              delivery_tracking: data.delivery_tracking,
-            };
-          })
-        );
+  //   const fetchDeliveryStatuses = async () => {
+  //     try {
+  //       const results = await Promise.all(
+  //         inProgressContracts.map(async (contract) => {
+  //           const res = await fetch(
+  //             `http://localhost:5000/api/contracts/${contract.contract_id}/current-delivery-status`
+  //           );
+  //           const data = await res.json();
+  //           return {
+  //             contractId: contract.contract_id,
+  //             delivery_tracking: data.delivery_tracking,
+  //           };
+  //         })
+  //       );
 
+  //       const map = {};
+  //       results.forEach((r) => {
+  //         map[r.contractId] = r.delivery_tracking;
+  //       });
+
+  //       setDeliveryStatusMap(map);
+  //     } catch (err) {
+  //       console.error("❌ Failed to fetch delivery status", err);
+  //     }
+  //   };
+
+  //   fetchDeliveryStatuses();
+  // }, [inProgressContracts]);
+
+  ////
+
+  // auto reload
+
+  /* =========================
+   Fetch delivery tracking (with auto-refresh)
+========================= */
+useEffect(() => {
+  if (inProgressContracts.length === 0) return;
+
+  let isMounted = true; // to avoid setting state if unmounted
+
+  const fetchDeliveryStatuses = async () => {
+    try {
+      const results = await Promise.all(
+        inProgressContracts.map(async (contract) => {
+          const res = await fetch(
+            `http://localhost:5000/api/contracts/${contract.contract_id}/current-delivery-status`
+          );
+          const data = await res.json();
+          return {
+            contractId: contract.contract_id,
+            delivery_tracking: data.delivery_tracking,
+          };
+        })
+      );
+
+      if (isMounted) {
         const map = {};
         results.forEach((r) => {
           map[r.contractId] = r.delivery_tracking;
         });
-
         setDeliveryStatusMap(map);
-      } catch (err) {
-        console.error("❌ Failed to fetch delivery status", err);
       }
-    };
+    } catch (err) {
+      console.error("❌ Failed to fetch delivery status", err);
+    }
+  };
 
-    fetchDeliveryStatuses();
-  }, [inProgressContracts]);
+  // Initial fetch
+  fetchDeliveryStatuses();
+
+  // Set interval for polling every 3 seconds
+  const intervalId = setInterval(fetchDeliveryStatuses, 3000);
+
+  return () => {
+    isMounted = false;       // cleanup
+    clearInterval(intervalId); // stop polling on unmount
+  };
+}, [inProgressContracts]);
+
+
+
+
+
+  //////
 
   if (loading) {
     return <div className={styles.container}>Loading contracts...</div>;

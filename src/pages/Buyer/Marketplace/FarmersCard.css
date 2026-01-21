@@ -59,3 +59,16 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.farmer-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #e5f6ee;
+  color: #0f9d58;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}

@@ -1,0 +1,105 @@
+.audit-page {
+  padding: 20px;
+}
+
+/* 🔍 Search bar */
+.search-input {
+  padding: 10px;
+  width: 320px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.no-results {
+  color: #888;
+  margin-top: 20px;
+}
+
+.contract-section {
+  margin-bottom: 50px;
+}
+
+/* 👉 Horizontal chain */
+.timeline-horizontal {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+}
+
+/* 🧱 Block */
+.block {
+  min-width: 320px;
+  background: #d1fae5; /* light green */
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #10b981; /* darker green border */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  position: relative;
+  color: #065f46; /* dark green text for contrast */
+}
+
+/* ➡ Arrow between blocks */
+.block::after {
+  content: "➡";
+  position: absolute;
+  right: -22px; /* move a bit further for clarity */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px; /* bigger arrow */
+  color: #065f46; /* dark green for visibility */
+  font-weight: bold;
+}
+
+.block:last-child::after {
+  display: none;
+}
+
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.op {
+  color: #065f46; /* dark green */
+}
+
+.time {
+  font-size: 12px;
+  color: #14532d; /* darker green for subtle contrast */
+}
+
+.hashes {
+  font-size: 12px;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+
+.changes {
+  background: #bbf7d0; /* very light green for changes */
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  overflow-x: auto;
+}
+
+.contract-parties {
+  margin: 10px 0 15px;
+  font-size: 14px;
+  background: #ecfdf5; /* very light green */
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contract-parties .arrow {
+  font-weight: bold;
+  color: #065f46; /* dark green */
+}

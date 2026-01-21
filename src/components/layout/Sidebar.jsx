@@ -12,7 +12,8 @@ import {
     TrendingUp,
     Clock,
     Calendar,
-    Truck
+    Truck,
+    Box
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -34,7 +35,9 @@ const Sidebar = ({ role }) => {
         { name: 'Dispute Center', path: '/farmer/disputes', icon: AlertCircle },
         { name: 'Delivery Tracking', path: '/farmer/delivery-tracking', icon: Truck },
         { name: 'Market Trends', path: '/farmer/market-trends', icon: TrendingUp },
+        { name: 'Blockchain Ledger', path: '/farmer/contract-audit', icon: Box },
         { name: 'Profile', path: '/farmer/profile', icon: User },
+        
     ];
 
     const buyerLinks = [
@@ -47,6 +50,7 @@ const Sidebar = ({ role }) => {
         { name: 'Dispute Center', path: '/buyer/disputes', icon: AlertCircle },
         // { name: 'Market Insights', path: '/buyer/insights', icon: TrendingUp },
         { name: 'Delivery Tracking', path: '/buyer/delivery-tracking', icon: Truck },
+        { name: 'Blockchain Ledger', path: '/buyer/contract-audit', icon: Box },
         { name: "Buyer Profile ", path: "/buyer/profile", icon: User },
     ];
 

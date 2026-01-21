@@ -242,6 +242,37 @@ router.get("/contracts/:contractId/current-delivery-status", async (req, res) =>
   }
 });
 
+/**
+ * Get contract participants (buyer org + farmer)
+ * Used by blockchain audit UI
+ */
+router.get("/contracts/participants", async (req, res) => {
+  try {
+    const contracts = await Contract.find(
+      {},
+      {
+        contract_id: 1,
+        organization_name: 1,
+        farmer_name: 1,
+        _id: 0
+      }
+    );
+
+    // Convert to lookup map
+    const result = {};
+    contracts.forEach((c) => {
+      result[c.contract_id] = {
+        organization_name: c.organization_name || "Unknown Organization",
+        farmer_name: c.farmer_name || "Unknown Farmer"
+      };
+    });
+
+    res.json(result);
+  } catch (err) {
+    console.error("❌ Contract participants error:", err);
+    res.status(500).json({ error: "Failed to fetch contract participants" });
+  }
+});
 
 
 export default router;

@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import { watchContracts } from "./watchContracts.js";
 
 import usersRoutes from '../routes/users.js'
 import buyerContractsRoutes from "../routes/buyerContracts.js";
@@ -14,9 +15,18 @@ import { connectMongo } from "../config/mongodb.js";
 import testMongoRoute from "../routes/testMongo.js"
 import getbp from "../routes/getbp.js"
 import contracts from "../routes/contracts.js"
+import userCoreProfileRoutes from "../routes/userCoreProfile.js";
+import farmersRoutes from "../routes/farmers.routes.js";
+import contractAuditRoutes from "../routes/contractAudit.routes.js";
+import mongoose from 'mongoose';
 
 const app = express()
 connectMongo();
+
+///
+mongoose.connection.once("open", () => { watchContracts(); });
+
+///
 
 /* =====================
    Global error handlers
@@ -56,6 +66,9 @@ app.use('/api', counterOfferRoutes)
 app.use('/api', counterCheckRoutes)
 app.use("/api", testMongoRoute);
 app.use("/api", contracts);
+app.use("/api", userCoreProfileRoutes);
+app.use("/api", farmersRoutes);
+app.use("/api/contract-audit", contractAuditRoutes);
 
 
 

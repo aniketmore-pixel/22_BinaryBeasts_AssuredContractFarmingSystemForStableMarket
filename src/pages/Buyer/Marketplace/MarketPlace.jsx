@@ -1,31 +1,45 @@
-import { useState } from "react";
-import { farmers } from "./farmersDat.js";
+import { useEffect, useState } from "react";
 import FarmersCards from "./FarmersCards.jsx";
 import "./FarmersMarketPlace.css";
 
 function MarketPlace() {
+  const [farmers, setFarmers] = useState([]);
   const [query, setQuery] = useState("");
-  const [sortDesc, setSortDesc] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  const filtered = farmers
-    .filter((f) => {
-      const q = query.toLowerCase();
+  useEffect(() => {
+    const fetchFarmers = async () => {
+      try {
+        const res = await fetch(
+          "http://localhost:5000/api/get-all-farmers"
+        );
+        const data = await res.json();
+        setFarmers(data);
+      } catch (err) {
+        console.error("❌ Failed to load farmers:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      const name = f.name?.toLowerCase() || "";
-      const location =
-        typeof f.location === "string" ? f.location.toLowerCase() : "";
+    fetchFarmers();
+  }, []);
 
-      const crops = Array.isArray(f.primaryCrop)
-        ? f.primaryCrop.join(" ").toLowerCase()
-        : "";
+  const filtered = farmers.filter((f) => {
+    const q = query.toLowerCase();
 
-      return name.includes(q) || location.includes(q) || crops.includes(q);
-    })
-    .sort((a, b) => {
-      const scoreA = a.experience * 5 - a.disputes * 3;
-      const scoreB = b.experience * 5 - b.disputes * 3;
-      return sortDesc ? scoreB - scoreA : scoreA - scoreB;
-    });
+    const name = f.name?.toLowerCase() || "";
+    const location = f.farm_location?.toLowerCase() || "";
+    const crops = f.primary_crops?.toLowerCase() || "";
+
+    return (
+      name.includes(q) ||
+      location.includes(q) ||
+      crops.includes(q)
+    );
+  });
+
+  if (loading) return <p>Loading farmers...</p>;
 
   return (
     <div className="marketplace">
@@ -35,14 +49,10 @@ function MarketPlace() {
         <div className="controls">
           <input
             type="text"
-            placeholder="Search farmer, crop, location..."
+            placeholder="Search name, crop, location..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-
-          <button className="sort-btn" onClick={() => setSortDesc(!sortDesc)}>
-            Sort by Score {sortDesc ? "↓" : "↑"}
-          </button>
         </div>
       </div>
 
