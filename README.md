@@ -1,16 +1,124 @@
-# React + Vite
+# KrishiSetu - Assured Contract Farming System for Stable Market
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Introduction
+The Assured Contract Farming System is a digital platform designed to connect farmers directly with buyers through secure and transparent agreements.
 
-Currently, two official plugins are available:
+It aims to eliminate middlemen, stabilize farmer incomes, and ensure fair pricing by enabling contract-based agricultural trade.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 📚 Table of Contents
+- Introduction
+- Features
+- Tech Stack
+- Installation
+- Usage
+- Configuration
+- Project Structure
+- Examples
+- Troubleshooting
+- Future Enhancements
+- Contributors
+- License
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Farmer & Buyer Registration
+- Crop Listings
+- Search & Discovery
+- Contract Creation
+- Secure Agreements
+- Payment Integration (Optional)
+- Tracking & Monitoring
+- Notifications
+
+---
+
+## 🛠️ Tech Stack
+
+Frontend:
+- React.js / Next.js
+- Tailwind CSS
+
+Backend:
+- Node.js / Express.js
+
+Database:
+- MongoDB / Firebase
+
+---
+
+## ⚙️ Installation
+
+1. Clone the Repository
+git clone https://github.com/aniketmore-pixel/22_BinaryBeasts_AssuredContractFarmingSystemForStableMarket.git
+
+2. Install Dependencies
+npm install
+
+3. Setup Environment Variables (.env)
+MONGODB_URI=your_database_url
+JWT_SECRET=your_secret_key
+PORT=3000
+
+4. Run the Application
+npm run dev
+
+---
+
+## 🧑‍💻 Usage
+
+1. Register as Farmer/Buyer
+2. Create crop listings
+3. Browse and negotiate
+4. Create contract
+5. Track progress
+
+---
+
+## 📁 Project Structure
+
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   ├── models/
+│   ├── controllers/
+│   └── utils/
+├── .env
+├── package.json
+└── README.md
+
+---
+
+## 🐞 Troubleshooting
+
+- Run npm cache clean --force if install fails
+- Check .env variables
+- Verify MongoDB connection
+- Change PORT if already in use
+
+---
+
+## 🔮 Future Enhancements
+
+- Mobile app
+- AI price prediction
+- Blockchain contracts
+- Payment gateway
+- Weather analytics
+
+---
+
+## 👥 Contributors
+
+Team Binary Beasts
+
+---
+
+## 📜 License
+
+MIT License
