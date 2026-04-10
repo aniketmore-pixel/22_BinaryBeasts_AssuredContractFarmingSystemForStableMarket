@@ -1,3 +1,4 @@
+<img width="1920" height="1080" alt="Screenshot (324)" src="https://github.com/user-attachments/assets/e017e1d4-1af7-49fc-b4f9-eedf016a4490" /><img width="1920" height="1080" alt="Screenshot (314)" src="https://github.com/user-attachments/assets/e96ef706-df2c-4dcf-bf69-c9adfe36a8c5" />
 # KrishiSetu - Assured Contract Farming System for Stable Market
 
 > A smart solution to bridge the gap between farmers and buyers by enabling **secure, transparent, and assured contract farming**.
@@ -17,7 +18,17 @@ This system minimizes uncertainty in pricing, ensures fair trade, and reduces th
 <img width="1920" height="1080" alt="Screenshot (309)" src="https://github.com/user-attachments/assets/169ef913-3b0e-41d2-ab9a-def7ec40a110" />
 <img width="1920" height="1080" alt="Screenshot (311)" src="https://github.com/user-attachments/assets/f05da053-49ba-4471-bc70-e12a30b45c75" />
 <img width="1920" height="1080" alt="Screenshot (312)" src="https://github.com/user-attachments/assets/543b15b2-bc6c-4bc8-a4bc-89c1e3d3e8a2" />
-
+<img width="1920" height="1080" alt="Screenshot (314)" src="https://github.com/user-attachments/assets/3a2db59d-7b15-4c74-b9af-94636ebdc12f" />
+<img width="1920" height="1080" alt="Screenshot (315)" src="https://github.com/user-attachments/assets/0b794d44-a8c6-4d7e-8601-7483d8005bbd" />
+<img width="1920" height="1080" alt="Screenshot (316)" src="https://github.com/user-attachments/assets/10fe091a-0f02-47e6-b374-eb282a1afd1a" />
+<img width="1920" height="1080" alt="Screenshot (318)" src="https://github.com/user-attachments/assets/3e95f36b-f584-4666-b521-f9dcc71a843b" />
+<img width="1920" height="1080" alt="Screenshot (317)" src="https://github.com/user-attachments/assets/1d27910c-f3d7-4133-b37d-65cbf145e26c" />
+<img width="1920" height="1080" alt="Screenshot (319)" src="https://github.com/user-attachments/assets/f3911f0d-411d-4198-9ef4-33b3445f3ec9" />
+<img width="1920" height="1080" alt="Screenshot (320)" src="https://github.com/user-attachments/assets/092b8220-4195-4f0a-814b-7be8bb03b37a" />
+<img width="1920" height="1080" alt="Screenshot (321)" src="https://github.com/user-attachments/assets/9b02f388-d539-4a16-91ef-6f8f6e72deca" />
+<img width="1920" height="1080" alt="Screenshot (322)" src="https://github.com/user-attachments/assets/465dbf0e-921f-49a7-a09c-facb0bef4154" />
+<img width="1920" height="1080" alt="Screenshot (323)" src="https://github.com/user-attachments/assets/43172eeb-a41b-47db-a90b-6173020e05f9" />
+<img width="1920" height="1080" alt="Screenshot (324)" src="https://github.com/user-attachments/assets/42029928-e3b8-459d-b0fa-db2313b83c35" />
 <img width="1920" height="1080" alt="Screenshot (310)" src="https://github.com/user-attachments/assets/2f48fe16-2b7e-4dd3-aa30-26feed1a99bd" />
 
 
