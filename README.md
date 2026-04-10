@@ -1,4 +1,4 @@
-# KrishiSetu - Assured Contract Farming System for Stable Market
+        # KrishiSetu - Assured Contract Farming System for Stable Market
 
 > A smart solution to bridge the gap between farmers and buyers by enabling **secure, transparent, and assured contract farming**.
 
@@ -9,6 +9,17 @@
 The **Assured Contract Farming System** is a platform designed to stabilize agricultural markets by directly connecting **farmers** with **buyers (retailers, wholesalers, or companies)** through pre-agreed contracts.
 
 This system minimizes uncertainty in pricing, ensures fair trade, and reduces the risk faced by farmers due to market fluctuations.
+
+---
+
+## 📌 Screenshots 📸
+
+<img width="1920" height="1080" alt="Screenshot (309)" src="https://github.com/user-attachments/assets/169ef913-3b0e-41d2-ab9a-def7ec40a110" />
+<img width="1920" height="1080" alt="Screenshot (311)" src="https://github.com/user-attachments/assets/f05da053-49ba-4471-bc70-e12a30b45c75" />
+<img width="1920" height="1080" alt="Screenshot (312)" src="https://github.com/user-attachments/assets/543b15b2-bc6c-4bc8-a4bc-89c1e3d3e8a2" />
+
+<img width="1920" height="1080" alt="Screenshot (310)" src="https://github.com/user-attachments/assets/2f48fe16-2b7e-4dd3-aa30-26feed1a99bd" />
+
 
 ---
 
