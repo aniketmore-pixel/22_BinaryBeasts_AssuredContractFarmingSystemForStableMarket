@@ -1,4 +1,3 @@
-<img width="1920" height="1080" alt="Screenshot (324)" src="https://github.com/user-attachments/assets/e017e1d4-1af7-49fc-b4f9-eedf016a4490" /><img width="1920" height="1080" alt="Screenshot (314)" src="https://github.com/user-attachments/assets/e96ef706-df2c-4dcf-bf69-c9adfe36a8c5" />
 # KrishiSetu - Assured Contract Farming System for Stable Market
 
 > A smart solution to bridge the gap between farmers and buyers by enabling **secure, transparent, and assured contract farming**.
@@ -29,8 +28,9 @@ This system minimizes uncertainty in pricing, ensures fair trade, and reduces th
 <img width="1920" height="1080" alt="Screenshot (322)" src="https://github.com/user-attachments/assets/465dbf0e-921f-49a7-a09c-facb0bef4154" />
 <img width="1920" height="1080" alt="Screenshot (323)" src="https://github.com/user-attachments/assets/43172eeb-a41b-47db-a90b-6173020e05f9" />
 <img width="1920" height="1080" alt="Screenshot (324)" src="https://github.com/user-attachments/assets/42029928-e3b8-459d-b0fa-db2313b83c35" />
+<img width="1920" height="1080" alt="Screenshot (324)" src="https://github.com/user-attachments/assets/e017e1d4-1af7-49fc-b4f9-eedf016a4490" />
 <img width="1920" height="1080" alt="Screenshot (310)" src="https://github.com/user-attachments/assets/2f48fe16-2b7e-4dd3-aa30-26feed1a99bd" />
-
+<img width="1920" height="1080" alt="Screenshot (314)" src="https://github.com/user-attachments/assets/e96ef706-df2c-4dcf-bf69-c9adfe36a8c5" />
 
 ---
 
